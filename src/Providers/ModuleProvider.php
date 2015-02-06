@@ -1,25 +1,18 @@
 <?php
 namespace TypiCMS\Modules\Tags\Providers;
 
-use Lang;
-use View;
 use Config;
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Application;
-
-// Model
+use Illuminate\Support\ServiceProvider;
+use Lang;
 use TypiCMS\Modules\Tags\Models\Tag;
-
-// Repo
-use TypiCMS\Modules\Tags\Repositories\EloquentTag;
-
-// Cache
 use TypiCMS\Modules\Tags\Repositories\CacheDecorator;
-use TypiCMS\Services\Cache\LaravelCache;
-
-// Form
+use TypiCMS\Modules\Tags\Repositories\EloquentTag;
 use TypiCMS\Modules\Tags\Services\Form\TagForm;
 use TypiCMS\Modules\Tags\Services\Form\TagFormLaravelValidator;
+use TypiCMS\Services\Cache\LaravelCache;
+use View;
 
 class ModuleProvider extends ServiceProvider
 {
@@ -30,7 +23,7 @@ class ModuleProvider extends ServiceProvider
         require __DIR__ . '/../routes.php';
 
         // Add dirs
-        View::addLocation(__DIR__ . '/../Views');
+        View::addNamespace('tags', __DIR__ . '/../views/');
         $this->loadTranslationsFrom(__DIR__ . '/../lang', 'tags');
         $this->publishes([
             __DIR__ . '/../config/' => config_path('typicms/tags'),
@@ -38,6 +31,11 @@ class ModuleProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../migrations/' => base_path('/database/migrations'),
         ], 'migrations');
+
+        AliasLoader::getInstance()->alias(
+            'Tags',
+            'TypiCMS\Modules\Tags\Facades\Facade'
+        );
     }
 
     public function register()

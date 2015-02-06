@@ -1,11 +1,11 @@
 @section('js')
-    {{ HTML::script(asset('//tinymce.cachefly.net/4.1/tinymce.min.js')) }}
-    {{ HTML::script(asset('js/admin/form.js')) }}
+    <script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
+    <script src="{{ asset('js/admin/form.js') }}"></script>
 @stop
 
 @include('core::admin._buttons-form')
 
-{{ Form::hidden('id'); }}
+{{ Form::hidden('id') }}
 
 <div class="row">
     <div class="col-md-6 form-group @if($errors->has('tag'))has-error @endif">

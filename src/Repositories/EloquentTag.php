@@ -5,7 +5,7 @@ use DB;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use stdClass;
-use Str;
+use Illuminate\Support\Str;
 use TypiCMS\Repositories\RepositoriesAbstract;
 
 class EloquentTag extends RepositoriesAbstract implements TagInterface
