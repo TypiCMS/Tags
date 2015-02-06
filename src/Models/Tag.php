@@ -26,7 +26,7 @@ class Tag extends Base
     protected $appends = [];
 
     /**
-     * The default route for admin side.
+     * The default route for back office.
      *
      * @var string
      */
