@@ -5,18 +5,16 @@
 
 @include('core::admin._buttons-form')
 
-{{ Form::hidden('id') }}
+{!! BootForm::hidden('id') !!}
 
 <div class="row">
-    <div class="col-md-6 form-group @if($errors->has('tag'))has-error @endif">
-        {{ Form::label('tag', trans('validation.attributes.tag'), array('class' => 'control-label')) }}
-        {{ Form::text('tag', null, array('class' => 'form-control')) }}
-        {!! $errors->first('tag', '<p class="help-block">:message</p>') !!}
+    <div class="col-md-6">
+        {!! BootForm::text(trans('validation.attributes.tag'), 'tag') !!}
     </div>
     <div class="col-md-6 form-group @if($errors->has('slug'))has-error @endif">
-        {{ Form::label('slug', trans('validation.attributes.slug'), array('class' => 'control-label')) }}
+        {!! Form::label(trans('validation.attributes.slug'))->addClass('control-label')->forId('slug') !!}
         <div class="input-group">
-            {{ Form::text('slug', null, array('class' => 'form-control')) }}
+            {!! Form::text('slug')->addClass('form-control')->id('slug') !!}
             <span class="input-group-btn">
                 <button class="btn btn-default btn-slug @if($errors->has('slug'))btn-danger @endif" type="button">@lang('validation.attributes.generate')</button>
             </span>
