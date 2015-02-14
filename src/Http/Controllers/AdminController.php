@@ -1,7 +1,7 @@
 <?php
-namespace TypiCMS\Modules\Tags\Controllers;
+namespace TypiCMS\Modules\Tags\Http\Controllers;
 
-use TypiCMS\Controllers\AdminSimpleController;
+use TypiCMS\Http\Controllers\AdminSimpleController;
 use TypiCMS\Modules\Tags\Repositories\TagInterface;
 use TypiCMS\Modules\Tags\Services\Form\TagForm;
 

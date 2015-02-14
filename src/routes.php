@@ -3,7 +3,7 @@ Route::model('tags', 'TypiCMS\Modules\Tags\Models\Tag');
 
 Route::group(
     array(
-        'namespace' => 'TypiCMS\Modules\Tags\Controllers',
+        'namespace' => 'TypiCMS\Modules\Tags\Http\Controllers',
         'prefix'    => 'admin',
     ),
     function () {
