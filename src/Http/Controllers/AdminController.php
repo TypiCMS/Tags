@@ -2,15 +2,39 @@
 namespace TypiCMS\Modules\Tags\Http\Controllers;
 
 use TypiCMS\Http\Controllers\AdminSimpleController;
+use TypiCMS\Modules\Tags\Http\Requests\FormRequest;
 use TypiCMS\Modules\Tags\Repositories\TagInterface;
-use TypiCMS\Modules\Tags\Services\Form\TagForm;
 
 class AdminController extends AdminSimpleController
 {
 
-    public function __construct(TagInterface $tag, TagForm $tagform)
+    public function __construct(TagInterface $tag)
     {
-        parent::__construct($tag, $tagform);
-        $this->title['parent'] = trans_choice('tags::global.tags', 2);
+        parent::__construct($tag);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  FormRequest $request
+     * @return Redirect
+     */
+    public function store(FormRequest $request)
+    {
+        $model = $this->repository->create($request->all());
+        return $this->redirect($request, $model);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  $model
+     * @param  FormRequest $request
+     * @return Redirect
+     */
+    public function update($model, FormRequest $request)
+    {
+        $this->repository->update($request->all());
+        return $this->redirect($request, $model);
     }
 }
