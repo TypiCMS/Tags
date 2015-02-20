@@ -1,6 +1,6 @@
 <?php
 return array(
-    'name' => 'tags',
+    'name' => 'Tags',
     'tags' => 'tag|tags',
     'New'  => 'Nouveau tag',
     'Edit' => 'Modifier le tag',
