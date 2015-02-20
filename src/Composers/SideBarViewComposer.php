@@ -1,18 +1,25 @@
 <?php
 namespace TypiCMS\Modules\Tags\Composers;
 
-use Illuminate\View\View;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Sidebar\SidebarGroup;
+use Maatwebsite\Sidebar\SidebarItem;
+use TypiCMS\Composers\BaseSidebarViewComposer;
 
-class SidebarViewComposer
+class SidebarViewComposer extends BaseSidebarViewComposer
 {
     public function compose(View $view)
     {
-        $view->menus['content']->put('tags', [
-            'weight' => config('typicms.tags.sidebar.weight'),
-            'request' => $view->prefix . '/tags*',
-            'route' => 'admin.tags.index',
-            'icon-class' => 'icon fa fa-fw fa-tags',
-            'title' => 'Tags',
-        ]);
+        $view->sidebar->group(trans('global.menus.content'), function (SidebarGroup $group) {
+            $group->addItem(trans('tags::global.name'), function (SidebarItem $item) {
+                $item->icon = config('typicms.tags.sidebar.icon', 'icon fa fa-fw fa-tags');
+                $item->weight = config('typicms.tags.sidebar.weight');
+                $item->route('admin.tags.index');
+                $item->append('admin.tags.create');
+                $item->authorize(
+                    $this->auth->hasAccess('tags.index')
+                );
+            });
+        });
     }
 }
