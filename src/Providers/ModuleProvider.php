@@ -17,9 +17,12 @@ class ModuleProvider extends ServiceProvider
 
     public function boot()
     {
-        // Add dirs
-        View::addNamespace('tags', __DIR__ . '/../views/');
-        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'tags');
+
+        $this->loadViewsFrom(__DIR__ . '/../resources/views/', 'tags');
+        $this->publishes([
+            __DIR__ . '/../views' => base_path('resources/views/vendor/tags'),
+        ], 'views');
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'tags');
         $this->mergeConfigFrom(
             __DIR__ . '/../config/config.php', 'typicms.tags'
         );
