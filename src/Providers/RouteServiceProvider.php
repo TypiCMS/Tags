@@ -38,24 +38,23 @@ class RouteServiceProvider extends ServiceProvider {
     public function map(Router $router)
     {
         $router->group(['namespace' => $this->namespace], function($router) {
+
             /**
              * Front office routes
              */
-            $router->group(['before' => 'visitor.publicAccess'], function ($router) {
-                $routes = app('TypiCMS.routes');
-                foreach (Config::get('translatable.locales') as $lang) {
-                    if (isset($routes['tags'][$lang])) {
-                        $uri = $routes['tags'][$lang];
-                    } else {
-                        $uri = 'tags';
-                        if (Config::get('app.fallback_locale') != $lang || config('typicms.main_locale_in_url')) {
-                            $uri = $lang . '/' . $uri;
-                        }
+            $routes = app('TypiCMS.routes');
+            foreach (Config::get('translatable.locales') as $lang) {
+                if (isset($routes['tags'][$lang])) {
+                    $uri = $routes['tags'][$lang];
+                } else {
+                    $uri = 'tags';
+                    if (Config::get('app.fallback_locale') != $lang || config('typicms.main_locale_in_url')) {
+                        $uri = $lang . '/' . $uri;
                     }
-                    $router->get($uri, array('as' => $lang.'.tags', 'uses' => 'PublicController@index'));
-                    $router->get($uri.'/{slug}', array('as' => $lang.'.tags.slug', 'uses' => 'PublicController@show'));
                 }
-            });
+                $router->get($uri, array('as' => $lang.'.tags', 'uses' => 'PublicController@index'));
+                $router->get($uri.'/{slug}', array('as' => $lang.'.tags.slug', 'uses' => 'PublicController@show'));
+            }
 
             /**
              * Admin routes
