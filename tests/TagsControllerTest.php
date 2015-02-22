@@ -3,15 +3,11 @@ use TypiCMS\Modules\Tags\Models\Tag;
 
 class TagsControllerTest extends TestCase
 {
-    public function tearDown()
-    {
-        Mockery::close();
-    }
 
     public function testAdminIndex()
     {
-        $this->get('admin/tags');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $response = $this->call('GET', 'admin/tags');
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
     public function testStoreFails()
