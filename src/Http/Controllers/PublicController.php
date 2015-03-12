@@ -24,7 +24,7 @@ class PublicController extends BasePublicController
     {
         TypiCMS::setModel($this->repository->getModel());
 
-        $tags = $this->repository->getAll();
+        $tags = $this->repository->all();
 
         return view('tags::public.index')
             ->with(compact('tags'));

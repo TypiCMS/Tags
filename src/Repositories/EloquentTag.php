@@ -64,7 +64,7 @@ class EloquentTag extends RepositoriesAbstract implements TagInterface
      * @param  array    $with Eager load related models
      * @return Collection
      */
-    public function getAll(array $with = array(), $all = false)
+    public function all(array $with = array(), $all = false)
     {
         $query = $this->model->select(
             'id',

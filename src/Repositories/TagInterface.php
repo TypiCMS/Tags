@@ -26,7 +26,7 @@ interface TagInterface extends RepositoryInterface
      * @param  array    $with Eager load related models
      * @return Collection
      */
-    public function getAll(array $with = array(), $all = false);
+    public function all(array $with = array(), $all = false);
 
     /**
      * Find existing tags or create if they don't exist

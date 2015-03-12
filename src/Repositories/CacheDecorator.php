@@ -46,7 +46,7 @@ class CacheDecorator extends CacheAbstractDecorator implements TagInterface
      * @param  boolean  $all Show published or all
      * @return Collection
      */
-    public function getAll(array $with = array(), $all = false)
+    public function all(array $with = array(), $all = false)
     {
         $cacheKey = md5(App::getLocale() . 'all' . implode('.', $with) . $all);
 
@@ -54,7 +54,7 @@ class CacheDecorator extends CacheAbstractDecorator implements TagInterface
             return $this->cache->get($cacheKey);
         }
 
-        $models = $this->repo->getAll($with, $all);
+        $models = $this->repo->all($with, $all);
 
         // Store in cache for next request
         $this->cache->put($cacheKey, $models);
