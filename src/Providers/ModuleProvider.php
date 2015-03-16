@@ -58,7 +58,7 @@ class ModuleProvider extends ServiceProvider
 
         $app->bind('TypiCMS\Modules\Tags\Repositories\TagInterface', function (Application $app) {
             $repository = new EloquentTag(new Tag);
-            if (! Config::get('app.cache')) {
+            if (! config('typicms.cache')) {
                 return $repository;
             }
             $laravelCache = new LaravelCache($app['cache'], 'tags', 10);
