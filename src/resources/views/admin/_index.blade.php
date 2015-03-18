@@ -1,8 +1,8 @@
 <div ng-app="typicms" ng-cloak ng-controller="ListController">
 
     <h1>
-        <a href="{{ url }}/create" class="btn-add"><i class="fa fa-plus-circle"></i><span class="sr-only" translate>New</span></a>
-        <span translate translate-n="models.length" translate-plural="{{ models.length }} tags">{{ models.length }} tag</span>
+        <a href="{{ route('admin.' . $module . '.create') }}" class="btn-add"><i class="fa fa-plus-circle"></i><span class="sr-only" translate>New</span></a>
+        <span translate translate-n="models.length" translate-plural="@{{ models.length }} tags">@{{ models.length }} tag</span>
     </h1>
 
     <div class="table-responsive">
@@ -18,7 +18,7 @@
                 <tr>
                     <td colspan="2"></td>
                     <td>
-                        <input st-search="tag" class="form-control input-sm" placeholder="{{ 'Search' | translate }}…" type="text">
+                        <input st-search="tag" class="form-control input-sm" placeholder="@{{ 'Search' | translate }}…" type="text">
                     </td>
                     <td></td>
                 </tr>
@@ -28,8 +28,8 @@
                 <tr ng-repeat="model in displayedModels">
                     <td><typi-btn-delete ng-click="delete(model, model.tag)"></typi-btn-delete></td>
                     <td typi-btn-edit></td>
-                    <td>{{ model.tag }}</td>
-                    <td>{{ model.uses }}</td>
+                    <td>@{{ model.tag }}</td>
+                    <td>@{{ model.uses }}</td>
                 </tr>
             </tbody>
             <tfoot>
