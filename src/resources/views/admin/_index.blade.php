@@ -26,8 +26,10 @@
 
             <tbody>
                 <tr ng-repeat="model in displayedModels">
-                    <td><typi-btn-delete ng-click="delete(model, model.tag)"></typi-btn-delete></td>
-                    <td typi-btn-edit></td>
+                    <td typi-btn-delete action="delete(model, model.tag)"></td>
+                    <td>
+                        @include('core::admin._button-edit')
+                    </td>
                     <td>@{{ model.tag }}</td>
                     <td>@{{ model.uses }}</td>
                 </tr>
