@@ -2,10 +2,12 @@
 namespace TypiCMS\Modules\Tags\Http\Controllers;
 
 use Illuminate\Support\Str;
-use View;
+use Input;
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use TypiCMS;
-use TypiCMS\Modules\Tags\Repositories\TagInterface;
 use TypiCMS\Http\Controllers\BasePublicController;
+use TypiCMS\Modules\Tags\Repositories\TagInterface;
+use View;
 
 class PublicController extends BasePublicController
 {
@@ -24,10 +26,15 @@ class PublicController extends BasePublicController
     {
         TypiCMS::setModel($this->repository->getModel());
 
-        $tags = $this->repository->all();
+        $page = Input::get('page');
+        $perPage = config('typicms.tags.per_page');
+
+        $data = $this->repository->byPage($page, $perPage, ['translations']);
+
+        $models = new Paginator($data->items, $data->totalItems, $perPage, null, ['path' => Paginator::resolveCurrentPath()]);
 
         return view('tags::public.index')
-            ->with(compact('tags'));
+            ->with(compact('models'));
     }
 
     /**

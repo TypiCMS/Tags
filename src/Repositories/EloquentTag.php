@@ -36,6 +36,7 @@ class EloquentTag extends RepositoriesAbstract implements TagInterface
         $query = $this->model->select(
             'id',
             'tag',
+            'slug',
             DB::raw(
                 "(SELECT COUNT(*) FROM `" .
                 DB::getTablePrefix() .
@@ -69,6 +70,7 @@ class EloquentTag extends RepositoriesAbstract implements TagInterface
         $query = $this->model->select(
             'id',
             'tag',
+            'slug',
             DB::raw(
                 "(SELECT COUNT(*) FROM `" .
                 DB::getTablePrefix() .
@@ -114,5 +116,22 @@ class EloquentTag extends RepositoriesAbstract implements TagInterface
         }
 
         return $returnTags;
+    }
+
+    /**
+     * Get single model by Slug
+     *
+     * @param  string $slug slug
+     * @param  array  $with related tables
+     * @return mixed
+     */
+    public function bySlug($slug, array $with = array())
+    {
+        $model = $this->make($with)
+            ->where('slug', '=', $slug)
+            ->firstOrFail();
+
+        return $model;
+
     }
 }

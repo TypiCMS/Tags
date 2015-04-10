@@ -73,4 +73,30 @@ class CacheDecorator extends CacheAbstractDecorator implements TagInterface
         $this->cache->flush();
         return $this->repo->findOrCreate($tags);
     }
+
+    /**
+     * Get single model by slug
+     *
+     * @param  string $slug of model
+     * @param  array  $with
+     * @return object object of model information
+     */
+    public function bySlug($slug, array $with = array())
+    {
+        // Build the cache key, unique per model slug
+        $cacheKey = md5(App::getLocale() . 'bySlug' . $slug . implode('.', $with) . implode('.', Input::all()));
+
+        if ($this->cache->has($cacheKey)) {
+            return $this->cache->get($cacheKey);
+        }
+
+        // Item not cached, retrieve it
+        $model = $this->repo->bySlug($slug, $with);
+
+        // Store in cache for next request
+        $this->cache->put($cacheKey, $model);
+
+        return $model;
+
+    }
 }

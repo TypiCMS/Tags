@@ -35,4 +35,13 @@ interface TagInterface extends RepositoryInterface
      * @return array Array or Arrayable collection of Tag objects
      */
     public function findOrCreate(array $tags);
+
+    /**
+     * Get single model by slug
+     *
+     * @param  string $slug of model
+     * @param  array  $with
+     * @return object object of model information
+     */
+    public function bySlug($slug, array $with = array());
 }
