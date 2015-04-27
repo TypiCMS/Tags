@@ -1,8 +1,9 @@
 @extends('core::public.master')
+<?php $page = TypiCMS::getPageLinkedToModule('tags') ?>
 
 @section('title', $model->tag . ' – ' . trans('news::global.name') . ' – ' . $websiteTitle)
 @section('ogTitle', $model->tag)
-@section('bodyClass', 'body-news body-news-' . $model->id)
+@section('bodyClass', 'body-tags body-tag-' . $model->id . ' body-page body-page-' . $page->id)
 
 @section('main')
 
