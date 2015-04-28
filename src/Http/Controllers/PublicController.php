@@ -24,13 +24,9 @@ class PublicController extends BasePublicController
      */
     public function index()
     {
-        TypiCMS::setModel($this->repository->getModel());
-
         $page = Input::get('page');
         $perPage = config('typicms.tags.per_page');
-
         $data = $this->repository->byPage($page, $perPage, ['translations']);
-
         $models = new Paginator($data->items, $data->totalItems, $perPage, null, ['path' => Paginator::resolveCurrentPath()]);
 
         return view('tags::public.index')
@@ -45,9 +41,6 @@ class PublicController extends BasePublicController
     public function show($slug)
     {
         $model = $this->repository->bySlug($slug);
-
-        TypiCMS::setModel($model);
-
         return view('tags::public.show')
             ->with(compact('model'));
     }
