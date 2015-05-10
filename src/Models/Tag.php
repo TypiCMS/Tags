@@ -1,9 +1,9 @@
 <?php
 namespace TypiCMS\Modules\Tags\Models;
 
+use Laracasts\Presenter\PresentableTrait;
 use TypiCMS\Models\Base;
 use TypiCMS\Modules\History\Traits\Historable;
-use TypiCMS\Presenters\PresentableTrait;
 
 class Tag extends Base
 {
