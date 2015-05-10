@@ -1,9 +1,8 @@
 <?php
 namespace TypiCMS\Modules\Tags\Repositories;
 
-use App;
 use Illuminate\Database\Eloquent\Collection;
-use Input;
+use Illuminate\Support\Facades\Input;
 use TypiCMS\Modules\Core\Repositories\CacheAbstractDecorator;
 use TypiCMS\Modules\Core\Services\Cache\CacheInterface;
 
@@ -26,7 +25,7 @@ class CacheDecorator extends CacheAbstractDecorator implements TagInterface
      */
     public function byPage($page = 1, $limit = 10, array $with = array(), $all = false)
     {
-        $cacheKey = md5(App::getLocale().'byPage.'.$page.$limit.$all.implode('.', Input::except('page')));
+        $cacheKey = md5(config('app.locale').'byPage.'.$page.$limit.$all.implode('.', Input::except('page')));
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
@@ -48,7 +47,7 @@ class CacheDecorator extends CacheAbstractDecorator implements TagInterface
      */
     public function all(array $with = array(), $all = false)
     {
-        $cacheKey = md5(App::getLocale() . 'all' . implode('.', $with) . $all);
+        $cacheKey = md5(config('app.locale') . 'all' . implode('.', $with) . $all);
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
@@ -84,7 +83,7 @@ class CacheDecorator extends CacheAbstractDecorator implements TagInterface
     public function bySlug($slug, array $with = array())
     {
         // Build the cache key, unique per model slug
-        $cacheKey = md5(App::getLocale() . 'bySlug' . $slug . implode('.', $with) . implode('.', Input::all()));
+        $cacheKey = md5(config('app.locale') . 'bySlug' . $slug . implode('.', $with) . implode('.', Input::all()));
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
