@@ -2,7 +2,7 @@
 namespace TypiCMS\Modules\Tags\Models;
 
 use Laracasts\Presenter\PresentableTrait;
-use TypiCMS\Models\Base;
+use TypiCMS\Modules\Core\Models\Base;
 use TypiCMS\Modules\History\Traits\Historable;
 
 class Tag extends Base

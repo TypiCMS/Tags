@@ -5,7 +5,7 @@ use Illuminate\Support\Str;
 use Input;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use TypiCMS;
-use TypiCMS\Http\Controllers\BasePublicController;
+use TypiCMS\Modules\Core\Http\Controllers\BasePublicController;
 use TypiCMS\Modules\Tags\Repositories\TagInterface;
 use View;
 
