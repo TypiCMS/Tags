@@ -1,13 +1,12 @@
 <?php
 namespace TypiCMS\Modules\Tags\Http\Controllers;
 
-use Illuminate\Support\Str;
-use Input;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Str;
 use TypiCMS;
 use TypiCMS\Modules\Core\Http\Controllers\BasePublicController;
 use TypiCMS\Modules\Tags\Repositories\TagInterface;
-use View;
 
 class PublicController extends BasePublicController
 {
