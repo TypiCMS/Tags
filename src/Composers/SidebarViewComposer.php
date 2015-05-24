@@ -17,7 +17,7 @@ class SidebarViewComposer extends BaseSidebarViewComposer
                 $item->route('admin.tags.index');
                 $item->append('admin.tags.create');
                 $item->authorize(
-                    $this->auth->hasAccess('tags.index')
+                    $this->user->hasAccess('tags.index')
                 );
             });
         });
