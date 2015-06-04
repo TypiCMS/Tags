@@ -8,6 +8,7 @@ use TypiCMS\Modules\Tags\Models\Tag;
 use TypiCMS\Modules\Tags\Repositories\CacheDecorator;
 use TypiCMS\Modules\Tags\Repositories\EloquentTag;
 use TypiCMS\Modules\Core\Services\Cache\LaravelCache;
+use Laracasts\Utilities\JavaScript\JavaScriptFacade as JavaScript;
 
 class ModuleProvider extends ServiceProvider
 {
@@ -36,6 +37,10 @@ class ModuleProvider extends ServiceProvider
             'Tags',
             'TypiCMS\Modules\Tags\Facades\Facade'
         );
+
+        JavaScript::put([
+            'tags' => Tag::lists('tag')->all()
+        ]);
     }
 
     public function register()
