@@ -68,5 +68,12 @@ class ModuleProvider extends ServiceProvider
             return new CacheDecorator($repository, $laravelCache);
         });
 
+        /**
+         * Return the page linked to this module (for @inject in views)
+         */
+        $app->singleton('typicms.tags.page', function (Application $app) {
+            return TypiCMS::getPageLinkedToModule('tags');
+        });
+
     }
 }
