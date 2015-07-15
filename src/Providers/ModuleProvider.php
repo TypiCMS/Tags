@@ -1,8 +1,10 @@
 <?php
 namespace TypiCMS\Modules\Tags\Providers;
 
+use Exception;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade as JavaScript;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
