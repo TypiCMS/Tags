@@ -2,7 +2,7 @@
 
     <h1>
         <a href="{{ route('admin.' . $module . '.create') }}" class="btn-add"><i class="fa fa-plus-circle"></i><span class="sr-only">New</span></a>
-        <span>@{{ models.length }} @choice('users::global.users', 2)</span>
+        <span>@{{ models.length }} @choice('tags::global.tags', 2)</span>
     </h1>
 
     <div class="table-responsive">
