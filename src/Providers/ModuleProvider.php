@@ -39,9 +39,13 @@ class ModuleProvider extends ServiceProvider
             'TypiCMS\Modules\Tags\Facades\Facade'
         );
 
-        JavaScript::put([
-            'tags' => Tag::lists('tag')->all()
-        ]);
+        try {
+            JavaScript::put([
+                'tags' => Tag::lists('tag')->all()
+            ]);
+        } catch (Exception $e) {
+            Log::info($e->getMessage());
+        }
     }
 
     public function register()
