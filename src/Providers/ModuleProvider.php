@@ -65,6 +65,13 @@ class ModuleProvider extends ServiceProvider
          */
         $app->view->composer('core::admin._sidebar', 'TypiCMS\Modules\Tags\Composers\SidebarViewComposer');
 
+        /**
+         * Add the page in the view.
+         */
+        $app->view->composer('tags::public.*', function ($view) {
+            $view->page = TypiCMS::getPageLinkedToModule('tags');
+        });
+
         $app->bind('TypiCMS\Modules\Tags\Repositories\TagInterface', function (Application $app) {
             $repository = new EloquentTag(new Tag);
             if (! config('typicms.cache')) {
@@ -73,13 +80,6 @@ class ModuleProvider extends ServiceProvider
             $laravelCache = new LaravelCache($app['cache'], 'tags', 10);
 
             return new CacheDecorator($repository, $laravelCache);
-        });
-
-        /**
-         * Return the page linked to this module (for @inject in views)
-         */
-        $app->singleton('typicms.tags.page', function (Application $app) {
-            return TypiCMS::getPageLinkedToModule('tags');
         });
 
     }

@@ -1,5 +1,4 @@
 @extends('core::public.master')
-@inject('page', 'typicms.tags.page')
 
 @section('title', $model->tag . ' – ' . trans('news::global.name') . ' – ' . $websiteTitle)
 @section('ogTitle', $model->tag)
