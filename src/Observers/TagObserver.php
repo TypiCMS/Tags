@@ -29,7 +29,7 @@ class TagObserver
      */
     protected function processTags($tags)
     {
-        if (! $tags) {
+        if (!$tags) {
             return [];
         }
 
@@ -51,7 +51,7 @@ class TagObserver
      */
     protected function syncTags(Model $model, array $tags)
     {
-        if (! method_exists($model, 'tags')) {
+        if (!method_exists($model, 'tags')) {
             Log::info('Model doesn’t have a method called tags');
             return false;
         }
