@@ -1,4 +1,5 @@
 <?php
+
 namespace TypiCMS\Modules\Tags\Repositories;
 
 use Illuminate\Database\Eloquent\Collection;
@@ -8,7 +9,6 @@ use TypiCMS\Modules\Core\Services\Cache\CacheInterface;
 
 class CacheDecorator extends CacheAbstractDecorator implements TagInterface
 {
-
     public function __construct(TagInterface $repo, CacheInterface $cache)
     {
         $this->repo = $repo;
@@ -16,14 +16,15 @@ class CacheDecorator extends CacheAbstractDecorator implements TagInterface
     }
 
     /**
-     * Get paginated pages
+     * Get paginated pages.
      *
-     * @param  int      $page  Number of pages per page
-     * @param  int      $limit Results per page
-     * @param  boolean  $all   Show published or all
+     * @param int  $page  Number of pages per page
+     * @param int  $limit Results per page
+     * @param bool $all   Show published or all
+     *
      * @return stdClass Object with $items && $totalItems for pagination
      */
-    public function byPage($page = 1, $limit = 10, array $with = array(), $all = false)
+    public function byPage($page = 1, $limit = 10, array $with = [], $all = false)
     {
         $cacheKey = md5(config('app.locale').'byPage.'.$page.$limit.$all.implode('.', Input::except('page')));
 
@@ -40,14 +41,15 @@ class CacheDecorator extends CacheAbstractDecorator implements TagInterface
     }
 
     /**
-     * Get all tags
+     * Get all tags.
      *
-     * @param  boolean  $all Show published or all
+     * @param bool $all Show published or all
+     *
      * @return Collection
      */
-    public function all(array $with = array(), $all = false)
+    public function all(array $with = [], $all = false)
     {
-        $cacheKey = md5(config('app.locale') . 'all' . implode('.', $with) . $all);
+        $cacheKey = md5(config('app.locale').'all'.implode('.', $with).$all);
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
@@ -62,28 +64,31 @@ class CacheDecorator extends CacheAbstractDecorator implements TagInterface
     }
 
     /**
-     * Find existing tags or create if they don't exist
+     * Find existing tags or create if they don't exist.
      *
-     * @param  array $tags Array of strings, each representing a tag
+     * @param array $tags Array of strings, each representing a tag
+     *
      * @return array Array or Arrayable collection of Tag objects
      */
     public function findOrCreate(array $tags)
     {
         $this->cache->flush();
+
         return $this->repo->findOrCreate($tags);
     }
 
     /**
-     * Get single model by slug
+     * Get single model by slug.
      *
-     * @param  string $slug of model
-     * @param  array  $with
+     * @param string $slug of model
+     * @param array  $with
+     *
      * @return object object of model information
      */
-    public function bySlug($slug, array $with = array())
+    public function bySlug($slug, array $with = [])
     {
         // Build the cache key, unique per model slug
-        $cacheKey = md5(config('app.locale') . 'bySlug' . $slug . implode('.', $with) . implode('.', Input::all()));
+        $cacheKey = md5(config('app.locale').'bySlug'.$slug.implode('.', $with).implode('.', Input::all()));
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
@@ -96,6 +101,5 @@ class CacheDecorator extends CacheAbstractDecorator implements TagInterface
         $this->cache->put($cacheKey, $model);
 
         return $model;
-
     }
 }

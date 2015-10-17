@@ -1,4 +1,5 @@
 <?php
+
 namespace TypiCMS\Modules\Tags\Observers;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,11 +9,11 @@ use Tags;
 
 class TagObserver
 {
-
     /**
-     * On save, process tags
+     * On save, process tags.
      *
-     * @param  Model $model eloquent
+     * @param Model $model eloquent
+     *
      * @return mixed false or void
      */
     public function saved(Model $model)
@@ -22,9 +23,10 @@ class TagObserver
     }
 
     /**
-     * Convert string of tags to array
+     * Convert string of tags to array.
      *
      * @param  string
+     *
      * @return array
      */
     protected function processTags($tags)
@@ -43,16 +45,18 @@ class TagObserver
     }
 
     /**
-     * Sync tags for model
+     * Sync tags for model.
      *
-     * @param  Model $model
-     * @param  array $tags
+     * @param Model $model
+     * @param array $tags
+     *
      * @return void
      */
     protected function syncTags(Model $model, array $tags)
     {
         if (!method_exists($model, 'tags')) {
             Log::info('Model doesn’t have a method called tags');
+
             return false;
         }
 
@@ -69,5 +73,4 @@ class TagObserver
         // Assign tags to model
         $model->tags()->sync($tagIds);
     }
-
 }
