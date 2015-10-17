@@ -1,4 +1,5 @@
 <?php
+
 namespace TypiCMS\Modules\Tags\Models;
 
 use Laracasts\Presenter\PresentableTrait;
@@ -7,7 +8,6 @@ use TypiCMS\Modules\History\Traits\Historable;
 
 class Tag extends Base
 {
-
     use Historable;
     use PresentableTrait;
 
@@ -18,10 +18,10 @@ class Tag extends Base
      *
      * @var array
      */
-    protected $fillable = array(
+    protected $fillable = [
         'tag',
         'slug',
-    );
+    ];
 
     protected $appends = [];
 

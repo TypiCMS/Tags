@@ -1,4 +1,5 @@
 <?php
+
 namespace TypiCMS\Modules\Tags\Providers;
 
 use Exception;
@@ -15,25 +16,23 @@ use TypiCMS\Modules\Tags\Repositories\EloquentTag;
 
 class ModuleProvider extends ServiceProvider
 {
-
     public function boot()
     {
-
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/config.php', 'typicms.tags'
+            __DIR__.'/../config/config.php', 'typicms.tags'
         );
 
         $modules = $this->app['config']['typicms']['modules'];
         $this->app['config']->set('typicms.modules', array_merge(['tags' => ['linkable_to_page']], $modules));
 
-        $this->loadViewsFrom(__DIR__ . '/../resources/views/', 'tags');
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'tags');
+        $this->loadViewsFrom(__DIR__.'/../resources/views/', 'tags');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'tags');
 
         $this->publishes([
-            __DIR__ . '/../resources/views' => base_path('resources/views/vendor/tags'),
+            __DIR__.'/../resources/views' => base_path('resources/views/vendor/tags'),
         ], 'views');
         $this->publishes([
-            __DIR__ . '/../database' => base_path('database'),
+            __DIR__.'/../database' => base_path('database'),
         ], 'migrations');
 
         AliasLoader::getInstance()->alias(
@@ -43,7 +42,7 @@ class ModuleProvider extends ServiceProvider
 
         try {
             JavaScript::put([
-                'tags' => Tag::lists('tag')->all()
+                'tags' => Tag::lists('tag')->all(),
             ]);
         } catch (Exception $e) {
             Log::info($e->getMessage());
@@ -52,20 +51,19 @@ class ModuleProvider extends ServiceProvider
 
     public function register()
     {
-
         $app = $this->app;
 
-        /**
+        /*
          * Register route service provider
          */
         $app->register('TypiCMS\Modules\Tags\Providers\RouteServiceProvider');
 
-        /**
+        /*
          * Sidebar view composer
          */
         $app->view->composer('core::admin._sidebar', 'TypiCMS\Modules\Tags\Composers\SidebarViewComposer');
 
-        /**
+        /*
          * Add the page in the view.
          */
         $app->view->composer('tags::public.*', function ($view) {
@@ -73,14 +71,13 @@ class ModuleProvider extends ServiceProvider
         });
 
         $app->bind('TypiCMS\Modules\Tags\Repositories\TagInterface', function (Application $app) {
-            $repository = new EloquentTag(new Tag);
-            if (! config('typicms.cache')) {
+            $repository = new EloquentTag(new Tag());
+            if (!config('typicms.cache')) {
                 return $repository;
             }
             $laravelCache = new LaravelCache($app['cache'], 'tags', 10);
 
             return new CacheDecorator($repository, $laravelCache);
         });
-
     }
 }
