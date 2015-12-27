@@ -42,7 +42,7 @@ class ModuleProvider extends ServiceProvider
 
         try {
             JavaScript::put([
-                'tags' => Tag::lists('tag')->all(),
+                'tags' => Tag::pluck('tag')->all(),
             ]);
         } catch (Exception $e) {
             Log::info($e->getMessage());
