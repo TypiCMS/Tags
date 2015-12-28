@@ -2,12 +2,9 @@
 
 namespace TypiCMS\Modules\Tags\Providers;
 
-use Exception;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
-use Laracasts\Utilities\JavaScript\JavaScriptFacade as JavaScript;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
 use TypiCMS\Modules\Core\Services\Cache\LaravelCache;
 use TypiCMS\Modules\Tags\Models\Tag;
