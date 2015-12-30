@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Tags\Http\Controllers;
 
 use Illuminate\Support\Facades\Request;
 use TypiCMS\Modules\Core\Http\Controllers\BaseApiController;
+use TypiCMS\Modules\Tags\Models\Tag;
 use TypiCMS\Modules\Tags\Repositories\TagInterface as Repository;
 
 class ApiController extends BaseApiController
@@ -36,12 +37,28 @@ class ApiController extends BaseApiController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update($model)
+    public function update()
     {
-        $error = $this->repository->update(Request::all()) ? false : true;
+        $updated = $this->repository->update(Request::all());
 
         return response()->json([
-            'error' => $error,
-        ], 200);
+            'error' => !$updated,
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param \TypiCMS\Modules\Tags\Models\Tag $tag
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(Tag $tag)
+    {
+        $deleted = $this->repository->delete($tag);
+
+        return response()->json([
+            'error' => !$deleted,
+        ]);
     }
 }
