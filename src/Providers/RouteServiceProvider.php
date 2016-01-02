@@ -18,20 +18,6 @@ class RouteServiceProvider extends ServiceProvider
     protected $namespace = 'TypiCMS\Modules\Tags\Http\Controllers';
 
     /**
-     * Define your route model bindings, pattern filters, etc.
-     *
-     * @param \Illuminate\Routing\Router $router
-     *
-     * @return void
-     */
-    public function boot(Router $router)
-    {
-        parent::boot($router);
-
-        $router->model('tags', 'TypiCMS\Modules\Tags\Models\Tag');
-    }
-
-    /**
      * Define the routes for the application.
      *
      * @param \Illuminate\Routing\Router $router
@@ -58,12 +44,18 @@ class RouteServiceProvider extends ServiceProvider
             /*
              * Admin routes
              */
-            $router->resource('admin/tags', 'AdminController');
+            $router->get('admin/tags', ['as' => 'admin.tags.index', 'uses' => 'AdminController@index']);
+            $router->get('admin/tags/create', ['as' => 'admin.tags.create', 'uses' => 'AdminController@create']);
+            $router->get('admin/tags/{tag}/edit', ['as' => 'admin.tags.edit', 'uses' => 'AdminController@edit']);
+            $router->post('admin/tags', ['as' => 'admin.tags.store', 'uses' => 'AdminController@store']);
+            $router->put('admin/tags/{tag}', ['as' => 'admin.tags.update', 'uses' => 'AdminController@update']);
 
             /*
              * API routes
              */
-            $router->resource('api/tags', 'ApiController');
+            $router->get('api/tags', ['as' => 'api.tags.index', 'uses' => 'ApiController@index']);
+            $router->put('api/tags/{tag}', ['as' => 'api.tags.update', 'uses' => 'ApiController@update']);
+            $router->delete('api/tags/{tag}', ['as' => 'api.tags.destroy', 'uses' => 'ApiController@destroy']);
         });
     }
 }
