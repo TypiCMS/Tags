@@ -11,4 +11,4 @@
         <h1>{{ $model->tag }}</h1>
     </article>
 
-@stop
+@endsection
