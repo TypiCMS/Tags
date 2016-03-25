@@ -34,7 +34,7 @@ class RouteServiceProvider extends ServiceProvider
             if ($page = TypiCMS::getPageLinkedToModule('tags')) {
                 $options = $page->private ? ['middleware' => 'auth'] : [];
                 foreach (config('translatable.locales') as $lang) {
-                    if ($uri = $page->uri($lang)) {
+                    if ($page->translate($lang)->status && $uri = $page->uri($lang)) {
                         $router->get($uri, $options + ['as' => $lang.'.tags', 'uses' => 'PublicController@index']);
                         $router->get($uri.'/{slug}', $options + ['as' => $lang.'.tags.slug', 'uses' => 'PublicController@show']);
                     }
