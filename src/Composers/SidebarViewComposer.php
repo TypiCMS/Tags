@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Tags\Composers;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Sidebar\SidebarGroup;
 use Maatwebsite\Sidebar\SidebarItem;
 
@@ -17,7 +18,7 @@ class SidebarViewComposer
                 $item->route('admin::index-tags');
                 $item->append('admin::create-tags');
                 $item->authorize(
-                    auth()->user()->can('index-tags')
+                    Gate::allows('index-tags')
                 );
             });
         });
