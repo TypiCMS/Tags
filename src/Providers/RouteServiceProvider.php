@@ -45,17 +45,17 @@ class RouteServiceProvider extends ServiceProvider
              * Admin routes
              */
             $router->get('admin/tags', 'AdminController@index')->name('admin::index-tags');
-            $router->get('admin/tags/create', 'AdminController@create')->name('admin::create-tags');
-            $router->get('admin/tags/{tag}/edit', 'AdminController@edit')->name('admin::edit-tags');
-            $router->post('admin/tags', 'AdminController@store')->name('admin::store-tags');
-            $router->put('admin/tags/{tag}', 'AdminController@update')->name('admin::update-tags');
+            $router->get('admin/tags/create', 'AdminController@create')->name('admin::create-tag');
+            $router->get('admin/tags/{tag}/edit', 'AdminController@edit')->name('admin::edit-tag');
+            $router->post('admin/tags', 'AdminController@store')->name('admin::store-tag');
+            $router->put('admin/tags/{tag}', 'AdminController@update')->name('admin::update-tag');
 
             /*
              * API routes
              */
             $router->get('api/tags', 'ApiController@index')->name('api::index-tags');
-            $router->put('api/tags/{tag}', 'ApiController@update')->name('api::update-tags');
-            $router->delete('api/tags/{tag}', 'ApiController@destroy')->name('api::destroy-tags');
+            $router->put('api/tags/{tag}', 'ApiController@update')->name('api::update-tag');
+            $router->delete('api/tags/{tag}', 'ApiController@destroy')->name('api::destroy-tag');
         });
     }
 }
