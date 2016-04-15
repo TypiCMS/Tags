@@ -13,17 +13,7 @@ class Tag extends Base
 
     protected $presenter = 'TypiCMS\Modules\Tags\Presenters\ModulePresenter';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'tag',
-        'slug',
-    ];
-
-    protected $appends = [];
+    protected $guarded = ['id'];
 
     /**
      * The default route for back office.
