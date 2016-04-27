@@ -8,9 +8,7 @@
 
     @include('core::admin._button-create', ['module' => 'tags'])
 
-    <h1>
-        <span>@{{ models.length }} @choice('tags::global.tags', 2)</span>
-    </h1>
+    <h1>@lang('tags::global.name')</h1>
 
     <div class="table-responsive">
 
