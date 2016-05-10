@@ -50,7 +50,7 @@ class TagObserver
      * @param Model $model
      * @param array $tags
      *
-     * @return void
+     * @return null
      */
     protected function syncTags(Model $model, array $tags)
     {

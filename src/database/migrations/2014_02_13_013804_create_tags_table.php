@@ -8,7 +8,7 @@ class CreateTagsTable extends Migration
     /**
      * Run the migrations.
      *
-     * @return void
+     * @return null
      */
     public function up()
     {
@@ -31,7 +31,7 @@ class CreateTagsTable extends Migration
     /**
      * Reverse the migrations.
      *
-     * @return void
+     * @return null
      */
     public function down()
     {
