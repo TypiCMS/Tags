@@ -24,7 +24,7 @@ class PublicController extends BasePublicController
     {
         $page = Request::input('page');
         $perPage = config('typicms.tags.per_page');
-        $data = $this->repository->byPage($page, $perPage, ['translations']);
+        $data = $this->repository->byPage($page, $perPage);
         $models = new Paginator($data->items, $data->totalItems, $perPage, null, ['path' => Paginator::resolveCurrentPath()]);
 
         return view('tags::public.index')
