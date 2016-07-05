@@ -13,6 +13,7 @@ class SidebarViewComposer
     {
         $view->sidebar->group(trans('global.menus.content'), function (SidebarGroup $group) {
             $group->addItem(trans('tags::global.name'), function (SidebarItem $item) {
+                $item->id = 'tags';
                 $item->icon = config('typicms.tags.sidebar.icon', 'icon fa fa-fw fa-tags');
                 $item->weight = config('typicms.tags.sidebar.weight');
                 $item->route('admin::index-tags');
