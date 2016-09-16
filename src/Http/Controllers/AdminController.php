@@ -5,11 +5,11 @@ namespace TypiCMS\Modules\Tags\Http\Controllers;
 use TypiCMS\Modules\Core\Http\Controllers\BaseAdminController;
 use TypiCMS\Modules\Tags\Http\Requests\FormRequest;
 use TypiCMS\Modules\Tags\Models\Tag;
-use TypiCMS\Modules\Tags\Repositories\TagInterface;
+use TypiCMS\Modules\Tags\Repositories\EloquentTag;
 
 class AdminController extends BaseAdminController
 {
-    public function __construct(TagInterface $tag)
+    public function __construct(EloquentTag $tag)
     {
         parent::__construct($tag);
     }

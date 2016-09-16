@@ -6,9 +6,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
-use TypiCMS\Modules\Core\Services\Cache\LaravelCache;
 use TypiCMS\Modules\Tags\Models\Tag;
-use TypiCMS\Modules\Tags\Repositories\CacheDecorator;
 use TypiCMS\Modules\Tags\Repositories\EloquentTag;
 
 class ModuleProvider extends ServiceProvider
@@ -59,14 +57,6 @@ class ModuleProvider extends ServiceProvider
             $view->page = TypiCMS::getPageLinkedToModule('tags');
         });
 
-        $app->bind('TypiCMS\Modules\Tags\Repositories\TagInterface', function (Application $app) {
-            $repository = new EloquentTag(new Tag());
-            if (!config('typicms.cache')) {
-                return $repository;
-            }
-            $laravelCache = new LaravelCache($app['cache'], 'tags', 10);
-
-            return new CacheDecorator($repository, $laravelCache);
-        });
+        $app->bind('Tags', EloquentTag::class);
     }
 }

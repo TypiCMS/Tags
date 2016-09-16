@@ -6,11 +6,11 @@ use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Support\Facades\Request;
 use TypiCMS;
 use TypiCMS\Modules\Core\Http\Controllers\BasePublicController;
-use TypiCMS\Modules\Tags\Repositories\TagInterface;
+use TypiCMS\Modules\Tags\Repositories\EloquentTag;
 
 class PublicController extends BasePublicController
 {
-    public function __construct(TagInterface $tag)
+    public function __construct(EloquentTag $tag)
     {
         parent::__construct($tag);
     }

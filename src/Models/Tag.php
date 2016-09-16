@@ -13,7 +13,7 @@ class Tag extends Base
 
     protected $presenter = 'TypiCMS\Modules\Tags\Presenters\ModulePresenter';
 
-    protected $guarded = ['id'];
+    protected $guarded = ['id', 'exit'];
 
     /**
      * The default route for back office.

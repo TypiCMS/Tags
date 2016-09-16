@@ -5,7 +5,7 @@ namespace TypiCMS\Modules\Tags\Http\Controllers;
 use Illuminate\Support\Facades\Request;
 use TypiCMS\Modules\Core\Http\Controllers\BaseApiController;
 use TypiCMS\Modules\Tags\Models\Tag;
-use TypiCMS\Modules\Tags\Repositories\TagInterface as Repository;
+use TypiCMS\Modules\Tags\Repositories\EloquentTag as Repository;
 
 class ApiController extends BaseApiController
 {

@@ -2,19 +2,17 @@
 
 namespace TypiCMS\Modules\Tags\Repositories;
 
-use DB;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use TypiCMS\Modules\Tags\Models\Tag;
 use stdClass;
-use TypiCMS\Modules\Core\Repositories\RepositoriesAbstract;
 
-class EloquentTag extends RepositoriesAbstract implements TagInterface
+class EloquentTag extends EloquentRepository
 {
-    public function __construct(Model $model)
-    {
-        $this->model = $model;
-    }
+    protected $repositoryId = 'tags';
+
+    protected $model = Tag::class;
 
     /**
      * Get paginated models.
