@@ -5,6 +5,7 @@ namespace TypiCMS\Modules\Tags\Repositories;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use TypiCMS\Modules\Core\EloquentRepository;
 use TypiCMS\Modules\Tags\Models\Tag;
 use stdClass;
 
