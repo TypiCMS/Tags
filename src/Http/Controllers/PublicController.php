@@ -37,7 +37,7 @@ class PublicController extends BasePublicController
      */
     public function show($slug)
     {
-        $model = $this->repository->bySlug($slug);
+        $model = $this->repository->published()->bySlug($slug);
 
         return view('tags::public.show')
             ->with(compact('model'));

@@ -122,18 +122,21 @@ class EloquentTag extends EloquentRepository
     }
 
     /**
-     * Get single model by Slug.
+     * Get single model by Slug where status = 1.
      *
-     * @param string $slug slug
-     * @param array  $with related tables
+     * @param string $slug
+     * @param array  $attributes
      *
      * @return mixed
      */
-    public function bySlug($slug, array $with = [])
+    public function bySlug($slug, $attributes = ['*'])
     {
-        $model = $this->make($with)
-            ->where('slug', '=', $slug)
-            ->firstOrFail();
+        $model = $this
+            ->findBy('slug', $slug, $attributes);
+
+        if (is_null($model)) {
+            abort(404);
+        }
 
         return $model;
     }

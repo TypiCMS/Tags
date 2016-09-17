@@ -32,7 +32,7 @@ class ModuleProvider extends ServiceProvider
 
         AliasLoader::getInstance()->alias(
             'Tags',
-            'TypiCMS\Modules\Slides\Facades\Tags'
+            'TypiCMS\Modules\Tags\Facades\Tags'
         );
     }
 
