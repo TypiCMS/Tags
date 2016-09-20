@@ -3,7 +3,7 @@
 return [
     'per_page' => 50,
     'order'    => [
-        'uses' => 'desc',
+        'tag' => 'asc',
     ],
     'sidebar' => [
         'weight' => 10,

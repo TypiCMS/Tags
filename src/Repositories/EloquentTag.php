@@ -59,14 +59,11 @@ class EloquentTag extends EloquentRepository
     }
 
     /**
-     * Get all models.
-     *
-     * @param bool  $all  Show published or all
-     * @param array $with Eager load related models
+     * Get all tags with uses count.
      *
      * @return Collection
      */
-    public function all(array $with = [], $all = false)
+    public function allWithUses()
     {
         $query = $this->model->select(
             'id',
@@ -80,9 +77,22 @@ class EloquentTag extends EloquentRepository
                 "tags`.`id`) AS 'uses'"
             )
         )
-        ->order();
+        ->orderBy('uses', 'desc');
 
         return $query->get();
+    }
+
+    /**
+     * Get all models.
+     *
+     * @param bool  $all  Show published or all
+     * @param array $with Eager load related models
+     *
+     * @return Collection
+     */
+    public function all(array $with = [], $all = false)
+    {
+        return $this->model->select('id', 'tag', 'slug')->order()->get();
     }
 
     /**
