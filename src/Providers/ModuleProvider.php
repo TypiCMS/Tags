@@ -3,10 +3,8 @@
 namespace TypiCMS\Modules\Tags\Providers;
 
 use Illuminate\Foundation\AliasLoader;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
-use TypiCMS\Modules\Tags\Models\Tag;
 use TypiCMS\Modules\Tags\Repositories\EloquentTag;
 
 class ModuleProvider extends ServiceProvider
