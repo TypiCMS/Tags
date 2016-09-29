@@ -43,7 +43,7 @@ class RouteServiceProvider extends ServiceProvider
             /*
              * Admin routes
              */
-            $router->group(['middleware' => 'admin', 'prefix' => 'admin'], function(Router $router) {
+            $router->group(['middleware' => 'admin', 'prefix' => 'admin'], function (Router $router) {
                 $router->get('tags', 'AdminController@index')->name('admin::index-tags');
                 $router->get('tags/create', 'AdminController@create')->name('admin::create-tag');
                 $router->get('tags/{tag}/edit', 'AdminController@edit')->name('admin::edit-tag');
@@ -54,7 +54,7 @@ class RouteServiceProvider extends ServiceProvider
             /*
              * API routes
              */
-            $router->group(['middleware' => 'api', 'prefix' => 'api'], function(Router $router) {
+            $router->group(['middleware' => 'api', 'prefix' => 'api'], function (Router $router) {
                 $router->get('tags', 'ApiController@index')->name('api::index-tags');
                 $router->put('tags/{tag}', 'ApiController@update')->name('api::update-tag');
                 $router->delete('tags/{tag}', 'ApiController@destroy')->name('api::destroy-tag');
