@@ -104,7 +104,7 @@ class EloquentTag extends EloquentRepository
      */
     public function findOrCreate(array $tags)
     {
-        $foundTags = $this->model->whereIn('tag', $tags)->get();
+        $foundTags = $this->findWhereIn(['tag', $tags]);
 
         $returnTags = [];
 
