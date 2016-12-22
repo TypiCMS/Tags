@@ -18,6 +18,9 @@ class TagObserver
      */
     public function saved(Model $model)
     {
+        if (is_null(Request::input('tags'))) {
+            return;
+        }
         $tags = $this->processTags(Request::input('tags'));
         $this->syncTags($model, $tags);
     }
