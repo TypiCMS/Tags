@@ -5,6 +5,7 @@ namespace TypiCMS\Modules\Tags\Models;
 use Laracasts\Presenter\PresentableTrait;
 use TypiCMS\Modules\Core\Models\Base;
 use TypiCMS\Modules\History\Traits\Historable;
+use TypiCMS\Modules\Projects\Models\Project;
 
 class Tag extends Base
 {
@@ -29,6 +30,6 @@ class Tag extends Base
      */
     public function projects()
     {
-        return $this->morphedByMany('TypiCMS\Modules\Projects\Models\Project', 'taggable');
+        return $this->morphedByMany(Project::class, 'taggable');
     }
 }
