@@ -123,7 +123,7 @@ class EloquentTag extends EloquentRepository
         // Add remainings tags as new
         foreach ($tags as $tag) {
             $returnTags[] = $this->model->create([
-                'tag'  => $tag,
+                'tag' => $tag,
                 'slug' => Str::slug($tag),
             ]);
         }

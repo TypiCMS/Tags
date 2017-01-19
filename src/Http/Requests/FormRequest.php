@@ -9,7 +9,7 @@ class FormRequest extends AbstractFormRequest
     public function rules()
     {
         $rules = [
-            'tag'  => 'required|max:255',
+            'tag' => 'required|max:255',
             'slug' => 'required|max:255|alpha_dash',
         ];
 
