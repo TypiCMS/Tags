@@ -11,8 +11,8 @@ class SidebarViewComposer
 {
     public function compose(View $view)
     {
-        $view->sidebar->group(trans('global.menus.content'), function (SidebarGroup $group) {
-            $group->addItem(trans('tags::global.name'), function (SidebarItem $item) {
+        $view->sidebar->group(__('global.menus.content'), function (SidebarGroup $group) {
+            $group->addItem(__('tags::global.name'), function (SidebarItem $item) {
                 $item->id = 'tags';
                 $item->icon = config('typicms.tags.sidebar.icon', 'icon fa fa-fw fa-tags');
                 $item->weight = config('typicms.tags.sidebar.weight');

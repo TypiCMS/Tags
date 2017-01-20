@@ -4,10 +4,10 @@
 
 <div class="row">
     <div class="col-md-6">
-        {!! BootForm::text(trans('validation.attributes.tag'), 'tag') !!}
+        {!! BootForm::text(__('validation.attributes.tag'), 'tag') !!}
     </div>
     <div class="col-md-6 form-group @if($errors->has('slug'))has-error @endif">
-        {!! Form::label(trans('validation.attributes.slug'))->addClass('control-label')->forId('slug') !!}
+        {!! Form::label(__('validation.attributes.slug'))->addClass('control-label')->forId('slug') !!}
         <div class="input-group">
             {!! Form::text('slug')->addClass('form-control')->id('slug')->data('slug', 'tag') !!}
             <span class="input-group-btn">
