@@ -33,7 +33,9 @@ class EloquentTag extends EloquentRepository
         $result->totalItems = 0;
         $result->items = [];
 
-        $query = $this->model->select(
+        $model = $this->createModel();
+
+        $query = $model->select(
             'id',
             'tag',
             'slug',
@@ -52,7 +54,7 @@ class EloquentTag extends EloquentRepository
                         ->get();
 
         // Put items and totalItems in stdClass
-        $result->totalItems = $this->model->count();
+        $result->totalItems = $model->count();
         $result->items = $models->all();
 
         return $result;
@@ -65,7 +67,7 @@ class EloquentTag extends EloquentRepository
      */
     public function allWithUses()
     {
-        $query = $this->model->select(
+        $query = $this->createModel()->select(
             'id',
             'tag',
             'slug',
@@ -122,9 +124,9 @@ class EloquentTag extends EloquentRepository
 
         // Add remainings tags as new
         foreach ($tags as $tag) {
-            $returnTags[] = $this->model->create([
+            $returnTags[] = $this->create([
                 'tag' => $tag,
-                'slug' => Str::slug($tag),
+                'slug' => str_slug($tag),
             ]);
         }
 

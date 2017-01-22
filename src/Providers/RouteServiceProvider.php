@@ -52,6 +52,11 @@ class RouteServiceProvider extends ServiceProvider
                 $router->patch('tags/{tag}', 'AdminController@ajaxUpdate');
                 $router->delete('tags/{tag}', 'AdminController@destroy')->name('admin::destroy-tag');
             });
+
+            $router->group(['middleware' => 'api', 'prefix' => 'api'], function (Router $router) {
+                $router->get('tags', 'ApiController@index')->name('api::index-tags');
+            });
+
         });
     }
 }
