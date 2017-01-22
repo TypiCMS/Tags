@@ -2,7 +2,7 @@
 
 @section('title', __('tags::global.New'))
 
-@section('main')
+@section('content')
 
     @include('core::admin._button-back', ['module' => 'tags'])
     <h1>
