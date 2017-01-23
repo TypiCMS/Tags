@@ -7,8 +7,8 @@
 @section('content')
 
     @include('core::public._btn-prev-next', ['module' => 'Tags', 'model' => $model])
-    <article>
-        <h1>{{ $model->tag }}</h1>
+    <article class="tag">
+        <h1 class="tag-title">{{ $model->tag }}</h1>
     </article>
 
 @endsection
