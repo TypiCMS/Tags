@@ -17,8 +17,8 @@
                 <tr>
                     <th class="delete"></th>
                     <th class="edit"></th>
-                    <th st-sort="tag" class="tag st-sort">@lang('Tag')</th>
-                    <th st-sort="uses" st-sort-default="reverse" class="uses st-sort">@lang('Uses')</th>
+                    <th st-sort="tag" class="tag st-sort">{{ __('Tag') }}</th>
+                    <th st-sort="uses" st-sort-default="reverse" class="uses st-sort">{{ __('Uses') }}</th>
                 </tr>
                 <tr>
                     <td colspan="2"></td>
