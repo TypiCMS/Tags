@@ -5,6 +5,8 @@ namespace TypiCMS\Modules\Tags\Providers;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
+use TypiCMS\Modules\Tags\Composers\SidebarViewComposer;
+use TypiCMS\Modules\Tags\Facades\Tags;
 use TypiCMS\Modules\Tags\Repositories\EloquentTag;
 
 class ModuleProvider extends ServiceProvider
@@ -28,10 +30,7 @@ class ModuleProvider extends ServiceProvider
             __DIR__.'/../database' => base_path('database'),
         ], 'migrations');
 
-        AliasLoader::getInstance()->alias(
-            'Tags',
-            'TypiCMS\Modules\Tags\Facades\Tags'
-        );
+        AliasLoader::getInstance()->alias('Tags', Tags::class);
     }
 
     public function register()
@@ -41,12 +40,12 @@ class ModuleProvider extends ServiceProvider
         /*
          * Register route service provider
          */
-        $app->register('TypiCMS\Modules\Tags\Providers\RouteServiceProvider');
+        $app->register(RouteServiceProvider::class);
 
         /*
          * Sidebar view composer
          */
-        $app->view->composer('core::admin._sidebar', 'TypiCMS\Modules\Tags\Composers\SidebarViewComposer');
+        $app->view->composer('core::admin._sidebar', SidebarViewComposer::class);
 
         /*
          * Add the page in the view.
