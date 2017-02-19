@@ -2,7 +2,6 @@
 
 namespace TypiCMS\Modules\Tags\Http\Controllers;
 
-use Illuminate\Support\Facades\Request;
 use TypiCMS;
 use TypiCMS\Modules\Core\Http\Controllers\BasePublicController;
 use TypiCMS\Modules\Tags\Repositories\EloquentTag;
@@ -21,7 +20,7 @@ class PublicController extends BasePublicController
      */
     public function index()
     {
-        $page = Request::input('page');
+        $page = request('page');
         $perPage = config('typicms.tags.per_page');
         $models = $this->repository->paginate($perPage, ['*'], 'page', $page);
 

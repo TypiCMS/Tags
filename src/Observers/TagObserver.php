@@ -4,7 +4,6 @@ namespace TypiCMS\Modules\Tags\Observers;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Request;
 use Tags;
 
 class TagObserver
@@ -18,7 +17,7 @@ class TagObserver
      */
     public function saved(Model $model)
     {
-        $tags = $this->processTags(Request::input('tags'));
+        $tags = $this->processTags(request('tags'));
         $this->syncTags($model, $tags);
     }
 
