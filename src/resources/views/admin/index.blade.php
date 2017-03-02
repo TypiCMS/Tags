@@ -10,6 +10,12 @@
 
     <h1>@lang('tags::global.name')</h1>
 
+    <div class="btn-toolbar">
+        @include('core::admin._button-select')
+        @include('core::admin._button-actions', ['limit' => ['delete']])
+        @include('core::admin._button-export')
+    </div>
+
     <div class="table-responsive">
 
         <table st-persist="tagsTable" st-table="displayedModels" st-safe-src="models" st-order st-filter class="table table-condensed table-main">
@@ -31,7 +37,9 @@
 
             <tbody>
                 <tr ng-repeat="model in displayedModels">
-                    <td typi-btn-delete action="delete(model, model.tag)"></td>
+                    <td>
+                        <input type="checkbox" checklist-model="checked.models" checklist-value="model">
+                    </td>
                     <td>
                         @include('core::admin._button-edit', ['module' => 'tags'])
                     </td>

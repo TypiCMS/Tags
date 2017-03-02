@@ -49,8 +49,8 @@ class RouteServiceProvider extends ServiceProvider
                 $router->get('tags/{tag}/edit', 'AdminController@edit')->name('admin::edit-tag');
                 $router->post('tags', 'AdminController@store')->name('admin::store-tag');
                 $router->put('tags/{tag}', 'AdminController@update')->name('admin::update-tag');
-                $router->patch('tags/{tag}', 'AdminController@ajaxUpdate');
-                $router->delete('tags/{tag}', 'AdminController@destroy')->name('admin::destroy-tag');
+                $router->patch('tags/{ids}', 'AdminController@ajaxUpdate')->name('admin::update-tag');
+                $router->delete('tags/{ids}', 'AdminController@destroyMultiple')->name('admin::destroy-tag');
             });
 
             $router->group(['middleware' => 'api', 'prefix' => 'api'], function (Router $router) {
