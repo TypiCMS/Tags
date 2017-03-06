@@ -6,13 +6,14 @@ use Laracasts\Presenter\PresentableTrait;
 use TypiCMS\Modules\Core\Models\Base;
 use TypiCMS\Modules\History\Traits\Historable;
 use TypiCMS\Modules\Projects\Models\Project;
+use TypiCMS\Modules\Tags\Presenters\ModulePresenter;
 
 class Tag extends Base
 {
     use Historable;
     use PresentableTrait;
 
-    protected $presenter = 'TypiCMS\Modules\Tags\Presenters\ModulePresenter';
+    protected $presenter = ModulePresenter::class;
 
     protected $guarded = ['id', 'exit'];
 
