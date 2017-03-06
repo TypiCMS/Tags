@@ -22,6 +22,9 @@ class AdminController extends BaseAdminController
     public function index()
     {
         $models = $this->repository->allWithUses();
+        if (request()->wantsJson()) {
+            return response()->json($models, 200);
+        }
         app('JavaScript')->put('models', $models);
 
         return view('tags::admin.index');

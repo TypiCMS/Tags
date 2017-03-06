@@ -53,10 +53,6 @@ class RouteServiceProvider extends ServiceProvider
                 $router->delete('tags/{ids}', 'AdminController@destroyMultiple')->name('admin::destroy-tag');
             });
 
-            $router->group(['middleware' => 'api', 'prefix' => 'api'], function (Router $router) {
-                $router->get('tags', 'ApiController@index')->name('api::index-tags');
-            });
-
         });
     }
 }
