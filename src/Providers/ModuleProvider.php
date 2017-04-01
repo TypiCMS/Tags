@@ -22,13 +22,11 @@ class ModuleProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__.'/../resources/views/', 'tags');
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'tags');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         $this->publishes([
             __DIR__.'/../resources/views' => base_path('resources/views/vendor/tags'),
         ], 'views');
-        $this->publishes([
-            __DIR__.'/../database' => base_path('database'),
-        ], 'migrations');
 
         AliasLoader::getInstance()->alias('Tags', Tags::class);
     }
