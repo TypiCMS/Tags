@@ -13,7 +13,6 @@
     <div class="btn-toolbar">
         @include('core::admin._button-select')
         @include('core::admin._button-actions', ['limit' => ['delete']])
-        @include('core::admin._button-export')
     </div>
 
     <div class="table-responsive">
