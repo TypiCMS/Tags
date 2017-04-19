@@ -44,13 +44,13 @@ class RouteServiceProvider extends ServiceProvider
              * Admin routes
              */
             $router->group(['middleware' => 'admin', 'prefix' => 'admin'], function (Router $router) {
-                $router->get('tags', 'AdminController@index')->name('admin::index-tags');
-                $router->get('tags/create', 'AdminController@create')->name('admin::create-tag');
-                $router->get('tags/{tag}/edit', 'AdminController@edit')->name('admin::edit-tag');
-                $router->post('tags', 'AdminController@store')->name('admin::store-tag');
-                $router->put('tags/{tag}', 'AdminController@update')->name('admin::update-tag');
-                $router->patch('tags/{ids}', 'AdminController@ajaxUpdate')->name('admin::update-tag-ajax');
-                $router->delete('tags/{ids}', 'AdminController@destroyMultiple')->name('admin::destroy-tag');
+                $router->get('tags', 'AdminController@index')->name('admin::index-tags')->middleware('can:see-all-tags');
+                $router->get('tags/create', 'AdminController@create')->name('admin::create-tag')->middleware('can:create-tag');
+                $router->get('tags/{tag}/edit', 'AdminController@edit')->name('admin::edit-tag')->middleware('can:update-tag');
+                $router->post('tags', 'AdminController@store')->name('admin::store-tag')->middleware('can:create-tag');
+                $router->put('tags/{tag}', 'AdminController@update')->name('admin::update-tag')->middleware('can:update-tag');
+                $router->patch('tags/{ids}', 'AdminController@ajaxUpdate')->name('admin::update-tag-ajax')->middleware('can:update-tag');
+                $router->delete('tags/{ids}', 'AdminController@destroyMultiple')->name('admin::destroy-tag')->middleware('can:delete-tag');
             });
 
         });

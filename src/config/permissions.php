@@ -2,9 +2,9 @@
 
 return [
     'tags' => [
-        'index-tags' => 'View list',
+        'see-all-tags' => 'View list',
         'create-tag' => 'Create',
-        'edit-tag' => 'Edit',
-        'destroy-tag' => 'Destroy',
+        'update-tag' => 'Edit',
+        'delete-tag' => 'Delete',
     ],
 ];
