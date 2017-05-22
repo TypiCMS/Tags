@@ -16,51 +16,6 @@ class EloquentTag extends EloquentRepository
     protected $model = Tag::class;
 
     /**
-     * Get paginated models.
-     *
-     * @param int   $page  Number of models per page
-     * @param int   $limit Results per page
-     * @param bool  $all   get published models or all
-     * @param array $with  Eager load related models
-     *
-     * @return stdClass Object with $items && $totalItems for pagination
-     */
-    public function byPage($page = 1, $limit = 10, array $with = [], $all = false)
-    {
-        $result = new stdClass();
-        $result->page = $page;
-        $result->limit = $limit;
-        $result->totalItems = 0;
-        $result->items = [];
-
-        $model = $this->createModel();
-
-        $query = $model->select(
-            'id',
-            'tag',
-            'slug',
-            DB::raw(
-                '(SELECT COUNT(*) FROM `'.
-                DB::getTablePrefix().
-                'taggables` WHERE `tag_id` = `'.
-                DB::getTablePrefix().
-                "tags`.`id`) AS 'uses'"
-            )
-        )
-        ->order();
-
-        $models = $query->skip($limit * ($page - 1))
-                        ->take($limit)
-                        ->get();
-
-        // Put items and totalItems in stdClass
-        $result->totalItems = $model->count();
-        $result->items = $models->all();
-
-        return $result;
-    }
-
-    /**
      * Get all tags with uses count.
      *
      * @return Collection
@@ -82,19 +37,6 @@ class EloquentTag extends EloquentRepository
         ->orderBy('uses', 'desc');
 
         return $query->get();
-    }
-
-    /**
-     * Get all models.
-     *
-     * @param bool  $all  Show published or all
-     * @param array $with Eager load related models
-     *
-     * @return Collection
-     */
-    public function all(array $with = [], $all = false)
-    {
-        return $this->model->select('id', 'tag', 'slug')->order()->get();
     }
 
     /**
