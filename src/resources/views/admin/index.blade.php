@@ -1,6 +1,6 @@
 @extends('core::admin.master')
 
-@section('title', __('tags::global.name'))
+@section('title', __('Tags'))
 
 @section('content')
 
@@ -8,7 +8,7 @@
 
     @include('core::admin._button-create', ['module' => 'tags'])
 
-    <h1>@lang('tags::global.name')</h1>
+    <h1>@lang('Tags')</h1>
 
     <div class="btn-toolbar">
         @include('core::admin._button-select')
@@ -28,7 +28,7 @@
                 <tr>
                     <td colspan="2"></td>
                     <td>
-                        <input st-search="tag" class="form-control input-sm" placeholder="@lang('Search')…" type="text">
+                        <input st-search="tag" class="form-control input-sm" placeholder="@lang('Filter')…" type="text">
                     </td>
                     <td></td>
                 </tr>
