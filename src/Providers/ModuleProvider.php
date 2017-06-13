@@ -31,6 +31,18 @@ class ModuleProvider extends ServiceProvider
         ], 'views');
 
         AliasLoader::getInstance()->alias('Tags', Tags::class);
+
+        /*
+         * Sidebar view composer
+         */
+        $this->app->view->composer('core::admin._sidebar', SidebarViewComposer::class);
+
+        /*
+         * Add the page in the view.
+         */
+        $this->app->view->composer('tags::public.*', function ($view) {
+            $view->page = TypiCMS::getPageLinkedToModule('tags');
+        });
     }
 
     public function register()
@@ -41,18 +53,6 @@ class ModuleProvider extends ServiceProvider
          * Register route service provider
          */
         $app->register(RouteServiceProvider::class);
-
-        /*
-         * Sidebar view composer
-         */
-        $app->view->composer('core::admin._sidebar', SidebarViewComposer::class);
-
-        /*
-         * Add the page in the view.
-         */
-        $app->view->composer('tags::public.*', function ($view) {
-            $view->page = TypiCMS::getPageLinkedToModule('tags');
-        });
 
         $app->bind('Tags', EloquentTag::class);
     }
