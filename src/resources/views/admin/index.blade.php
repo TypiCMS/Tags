@@ -1,16 +1,19 @@
 @extends('core::admin.master')
 
-@section('title', trans('tags::global.name'))
+@section('title', __('Tags'))
 
-@section('main')
+@section('content')
 
-<div ng-app="typicms" ng-cloak ng-controller="ListController">
+<div ng-cloak ng-controller="ListController">
 
     @include('core::admin._button-create', ['module' => 'tags'])
 
-    <h1>
-        <span>@{{ models.length }} @choice('tags::global.tags', 2)</span>
-    </h1>
+    <h1>@lang('Tags')</h1>
+
+    <div class="btn-toolbar">
+        @include('core::admin._button-select')
+        @include('core::admin._button-actions', ['limit' => ['delete']])
+    </div>
 
     <div class="table-responsive">
 
@@ -19,13 +22,13 @@
                 <tr>
                     <th class="delete"></th>
                     <th class="edit"></th>
-                    <th st-sort="tag" class="tag st-sort">Tag</th>
-                    <th st-sort="uses" st-sort-default="reverse" class="uses st-sort">Uses</th>
+                    <th st-sort="tag" class="tag st-sort">{{ __('Tag') }}</th>
+                    <th st-sort="uses" st-sort-default="reverse" class="uses st-sort">{{ __('Uses') }}</th>
                 </tr>
                 <tr>
                     <td colspan="2"></td>
                     <td>
-                        <input st-search="tag" class="form-control input-sm" placeholder="@lang('global.Search')…" type="text">
+                        <input st-search="tag" class="form-control input-sm" placeholder="@lang('Filter')…" type="text">
                     </td>
                     <td></td>
                 </tr>
@@ -33,7 +36,9 @@
 
             <tbody>
                 <tr ng-repeat="model in displayedModels">
-                    <td typi-btn-delete action="delete(model, model.tag)"></td>
+                    <td>
+                        <input type="checkbox" checklist-model="checked.models" checklist-value="model">
+                    </td>
                     <td>
                         @include('core::admin._button-edit', ['module' => 'tags'])
                     </td>

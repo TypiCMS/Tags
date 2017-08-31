@@ -5,11 +5,11 @@ namespace TypiCMS\Modules\Tags\Http\Controllers;
 use TypiCMS\Modules\Core\Http\Controllers\BaseAdminController;
 use TypiCMS\Modules\Tags\Http\Requests\FormRequest;
 use TypiCMS\Modules\Tags\Models\Tag;
-use TypiCMS\Modules\Tags\Repositories\TagInterface;
+use TypiCMS\Modules\Tags\Repositories\EloquentTag;
 
 class AdminController extends BaseAdminController
 {
-    public function __construct(TagInterface $tag)
+    public function __construct(EloquentTag $tag)
     {
         parent::__construct($tag);
     }
@@ -21,7 +21,10 @@ class AdminController extends BaseAdminController
      */
     public function index()
     {
-        $models = $this->repository->all([], true);
+        $models = $this->repository->allWithUses();
+        if (request()->wantsJson()) {
+            return response()->json($models, 200);
+        }
         app('JavaScript')->put('models', $models);
 
         return view('tags::admin.index');
@@ -34,7 +37,7 @@ class AdminController extends BaseAdminController
      */
     public function create()
     {
-        $model = $this->repository->getModel();
+        $model = $this->repository->createModel();
 
         return view('tags::admin.create')
             ->with(compact('model'));
@@ -77,8 +80,24 @@ class AdminController extends BaseAdminController
      */
     public function update(Tag $tag, FormRequest $request)
     {
-        $this->repository->update($request->all());
+        $this->repository->update($request->id, $request->all());
 
         return $this->redirect($request, $tag);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param \TypiCMS\Modules\Tags\Models\Tag $tag
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(Tag $tag)
+    {
+        $deleted = $this->repository->delete($tag);
+
+        return response()->json([
+            'error' => !$deleted,
+        ]);
     }
 }

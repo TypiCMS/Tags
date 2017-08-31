@@ -2,8 +2,8 @@
 
 return [
     'per_page' => 50,
-    'order'    => [
-        'uses' => 'desc',
+    'order' => [
+        'tag' => 'asc',
     ],
     'sidebar' => [
         'weight' => 10,

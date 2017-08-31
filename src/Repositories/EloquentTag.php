@@ -2,74 +2,27 @@
 
 namespace TypiCMS\Modules\Tags\Repositories;
 
-use DB;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use stdClass;
-use TypiCMS\Modules\Core\Repositories\RepositoriesAbstract;
+use TypiCMS\Modules\Core\Repositories\EloquentRepository;
+use TypiCMS\Modules\Tags\Models\Tag;
 
-class EloquentTag extends RepositoriesAbstract implements TagInterface
+class EloquentTag extends EloquentRepository
 {
-    public function __construct(Model $model)
-    {
-        $this->model = $model;
-    }
+    protected $repositoryId = 'tags';
+
+    protected $model = Tag::class;
 
     /**
-     * Get paginated models.
-     *
-     * @param int   $page  Number of models per page
-     * @param int   $limit Results per page
-     * @param bool  $all   get published models or all
-     * @param array $with  Eager load related models
-     *
-     * @return stdClass Object with $items && $totalItems for pagination
-     */
-    public function byPage($page = 1, $limit = 10, array $with = [], $all = false)
-    {
-        $result = new stdClass();
-        $result->page = $page;
-        $result->limit = $limit;
-        $result->totalItems = 0;
-        $result->items = [];
-
-        $query = $this->model->select(
-            'id',
-            'tag',
-            'slug',
-            DB::raw(
-                '(SELECT COUNT(*) FROM `'.
-                DB::getTablePrefix().
-                'taggables` WHERE `tag_id` = `'.
-                DB::getTablePrefix().
-                "tags`.`id`) AS 'uses'"
-            )
-        )
-        ->order();
-
-        $models = $query->skip($limit * ($page - 1))
-                        ->take($limit)
-                        ->get();
-
-        // Put items and totalItems in stdClass
-        $result->totalItems = $this->model->count();
-        $result->items = $models->all();
-
-        return $result;
-    }
-
-    /**
-     * Get all models.
-     *
-     * @param bool  $all  Show published or all
-     * @param array $with Eager load related models
+     * Get all tags with uses count.
      *
      * @return Collection
      */
-    public function all(array $with = [], $all = false)
+    public function allWithUses()
     {
-        $query = $this->model->select(
+        $query = $this->createModel()->select(
             'id',
             'tag',
             'slug',
@@ -81,7 +34,7 @@ class EloquentTag extends RepositoriesAbstract implements TagInterface
                 "tags`.`id`) AS 'uses'"
             )
         )
-        ->order();
+        ->orderBy('uses', 'desc');
 
         return $query->get();
     }
@@ -95,7 +48,7 @@ class EloquentTag extends RepositoriesAbstract implements TagInterface
      */
     public function findOrCreate(array $tags)
     {
-        $foundTags = $this->model->whereIn('tag', $tags)->get();
+        $foundTags = $this->findWhereIn(['tag', $tags]);
 
         $returnTags = [];
 
@@ -113,9 +66,9 @@ class EloquentTag extends RepositoriesAbstract implements TagInterface
 
         // Add remainings tags as new
         foreach ($tags as $tag) {
-            $returnTags[] = $this->model->create([
-                'tag'  => $tag,
-                'slug' => Str::slug($tag),
+            $returnTags[] = $this->create([
+                'tag' => $tag,
+                'slug' => str_slug($tag),
             ]);
         }
 
@@ -123,18 +76,21 @@ class EloquentTag extends RepositoriesAbstract implements TagInterface
     }
 
     /**
-     * Get single model by Slug.
+     * Get single model by Slug where status = 1.
      *
-     * @param string $slug slug
-     * @param array  $with related tables
+     * @param string $slug
+     * @param array  $attributes
      *
      * @return mixed
      */
-    public function bySlug($slug, array $with = [])
+    public function bySlug($slug, $attributes = ['*'])
     {
-        $model = $this->make($with)
-            ->where('slug', '=', $slug)
-            ->firstOrFail();
+        $model = $this
+            ->findBy('slug', $slug, $attributes);
+
+        if (is_null($model)) {
+            abort(404);
+        }
 
         return $model;
     }

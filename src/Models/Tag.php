@@ -5,25 +5,17 @@ namespace TypiCMS\Modules\Tags\Models;
 use Laracasts\Presenter\PresentableTrait;
 use TypiCMS\Modules\Core\Models\Base;
 use TypiCMS\Modules\History\Traits\Historable;
+use TypiCMS\Modules\Projects\Models\Project;
+use TypiCMS\Modules\Tags\Presenters\ModulePresenter;
 
 class Tag extends Base
 {
     use Historable;
     use PresentableTrait;
 
-    protected $presenter = 'TypiCMS\Modules\Tags\Presenters\ModulePresenter';
+    protected $presenter = ModulePresenter::class;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'tag',
-        'slug',
-    ];
-
-    protected $appends = [];
+    protected $guarded = ['id', 'exit'];
 
     /**
      * The default route for back office.
@@ -39,6 +31,6 @@ class Tag extends Base
      */
     public function projects()
     {
-        return $this->morphedByMany('TypiCMS\Modules\Projects\Models\Project', 'taggable');
+        return $this->morphedByMany(Project::class, 'taggable');
     }
 }

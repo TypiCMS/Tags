@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Tags\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Route;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
 
 class RouteServiceProvider extends ServiceProvider
@@ -20,23 +21,21 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Define the routes for the application.
      *
-     * @param \Illuminate\Routing\Router $router
-     *
-     * @return void
+     * @return null
      */
-    public function map(Router $router)
+    public function map()
     {
-        $router->group(['namespace' => $this->namespace], function (Router $router) {
+        Route::group(['namespace' => $this->namespace], function (Router $router) {
 
             /*
              * Front office routes
              */
             if ($page = TypiCMS::getPageLinkedToModule('tags')) {
                 $options = $page->private ? ['middleware' => 'auth'] : [];
-                foreach (config('translatable.locales') as $lang) {
-                    if ($page->translate($lang)->status && $uri = $page->uri($lang)) {
-                        $router->get($uri, $options + ['as' => $lang.'.tags', 'uses' => 'PublicController@index']);
-                        $router->get($uri.'/{slug}', $options + ['as' => $lang.'.tags.slug', 'uses' => 'PublicController@show']);
+                foreach (locales() as $lang) {
+                    if ($page->translate('status', $lang) && $uri = $page->uri($lang)) {
+                        $router->get($uri, $options + ['uses' => 'PublicController@index'])->name($lang.'::index-tags');
+                        $router->get($uri.'/{slug}', $options + ['uses' => 'PublicController@show'])->name($lang.'::tag');
                     }
                 }
             }
@@ -44,18 +43,16 @@ class RouteServiceProvider extends ServiceProvider
             /*
              * Admin routes
              */
-            $router->get('admin/tags', 'AdminController@index')->name('admin::index-tags');
-            $router->get('admin/tags/create', 'AdminController@create')->name('admin::create-tag');
-            $router->get('admin/tags/{tag}/edit', 'AdminController@edit')->name('admin::edit-tag');
-            $router->post('admin/tags', 'AdminController@store')->name('admin::store-tag');
-            $router->put('admin/tags/{tag}', 'AdminController@update')->name('admin::update-tag');
+            $router->group(['middleware' => 'admin', 'prefix' => 'admin'], function (Router $router) {
+                $router->get('tags', 'AdminController@index')->name('admin::index-tags')->middleware('can:see-all-tags');
+                $router->get('tags/create', 'AdminController@create')->name('admin::create-tag')->middleware('can:create-tag');
+                $router->get('tags/{tag}/edit', 'AdminController@edit')->name('admin::edit-tag')->middleware('can:update-tag');
+                $router->post('tags', 'AdminController@store')->name('admin::store-tag')->middleware('can:create-tag');
+                $router->put('tags/{tag}', 'AdminController@update')->name('admin::update-tag')->middleware('can:update-tag');
+                $router->patch('tags/{ids}', 'AdminController@ajaxUpdate')->name('admin::update-tag-ajax')->middleware('can:update-tag');
+                $router->delete('tags/{ids}', 'AdminController@destroyMultiple')->name('admin::destroy-tag')->middleware('can:delete-tag');
+            });
 
-            /*
-             * API routes
-             */
-            $router->get('api/tags', 'ApiController@index')->name('api::index-tags');
-            $router->put('api/tags/{tag}', 'ApiController@update')->name('api::update-tag');
-            $router->delete('api/tags/{tag}', 'ApiController@destroy')->name('api::destroy-tag');
         });
     }
 }

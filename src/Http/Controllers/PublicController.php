@@ -2,15 +2,13 @@
 
 namespace TypiCMS\Modules\Tags\Http\Controllers;
 
-use Illuminate\Pagination\LengthAwarePaginator as Paginator;
-use Illuminate\Support\Facades\Request;
 use TypiCMS;
 use TypiCMS\Modules\Core\Http\Controllers\BasePublicController;
-use TypiCMS\Modules\Tags\Repositories\TagInterface;
+use TypiCMS\Modules\Tags\Repositories\EloquentTag;
 
 class PublicController extends BasePublicController
 {
-    public function __construct(TagInterface $tag)
+    public function __construct(EloquentTag $tag)
     {
         parent::__construct($tag);
     }
@@ -22,10 +20,9 @@ class PublicController extends BasePublicController
      */
     public function index()
     {
-        $page = Request::input('page');
+        $page = request('page');
         $perPage = config('typicms.tags.per_page');
-        $data = $this->repository->byPage($page, $perPage, ['translations']);
-        $models = new Paginator($data->items, $data->totalItems, $perPage, null, ['path' => Paginator::resolveCurrentPath()]);
+        $models = $this->repository->paginate($perPage, ['*'], 'page', $page);
 
         return view('tags::public.index')
             ->with(compact('models'));
@@ -38,7 +35,7 @@ class PublicController extends BasePublicController
      */
     public function show($slug)
     {
-        $model = $this->repository->bySlug($slug);
+        $model = $this->repository->published()->bySlug($slug);
 
         return view('tags::public.show')
             ->with(compact('model'));
