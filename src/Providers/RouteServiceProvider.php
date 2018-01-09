@@ -25,7 +25,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        Route::group(['namespace' => $this->namespace], function (Router $router) {
+        Route::namespace($this->namespace)->group(function (Router $router) {
 
             /*
              * Front office routes
@@ -43,7 +43,7 @@ class RouteServiceProvider extends ServiceProvider
             /*
              * Admin routes
              */
-            $router->group(['middleware' => 'admin', 'prefix' => 'admin'], function (Router $router) {
+            $router->middleware('admin')->prefix('admin')->group(function (Router $router) {
                 $router->get('tags', 'AdminController@index')->name('admin::index-tags')->middleware('can:see-all-tags');
                 $router->get('tags/create', 'AdminController@create')->name('admin::create-tag')->middleware('can:create-tag');
                 $router->get('tags/{tag}/edit', 'AdminController@edit')->name('admin::edit-tag')->middleware('can:update-tag');
@@ -52,7 +52,6 @@ class RouteServiceProvider extends ServiceProvider
                 $router->patch('tags/{ids}', 'AdminController@ajaxUpdate')->name('admin::update-tag-ajax')->middleware('can:update-tag');
                 $router->delete('tags/{ids}', 'AdminController@destroyMultiple')->name('admin::destroy-tag')->middleware('can:delete-tag');
             });
-
         });
     }
 }
