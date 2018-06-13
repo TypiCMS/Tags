@@ -15,6 +15,15 @@ class EloquentTag extends EloquentRepository
 
     protected $model = Tag::class;
 
+    public function paginate($perPage = null, $attributes = ['*'], $pageName = 'page', $page = null)
+    {
+        $page = $page ?: Paginator::resolveCurrentPage($pageName);
+
+        return $this->executeCallback(get_called_class(), __FUNCTION__, array_merge(func_get_args(), compact('page')), function () use ($perPage, $attributes, $pageName, $page) {
+            return $this->prepareQuery($this->createModel())->order()->paginate($perPage, $attributes, $pageName, $page);
+        });
+    }
+
     /**
      * Get all tags with uses count.
      *
