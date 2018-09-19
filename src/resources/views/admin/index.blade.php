@@ -8,7 +8,6 @@
     url-base="{{ route('api::index-tags') }}"
     locale="{{ config('typicms.content_locale') }}"
     fields="id,tag,slug"
-    translatable-fields=""
     table="tags"
     title="tags"
     :publishable="false"
