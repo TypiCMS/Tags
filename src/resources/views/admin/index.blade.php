@@ -4,57 +4,39 @@
 
 @section('content')
 
-<div ng-cloak ng-controller="ListController">
+<item-list
+    url-base="{{ route('api::index-tags') }}"
+    locale="{{ config('typicms.content_locale') }}"
+    fields="id,tag,slug"
+    translatable-fields=""
+    table="tags"
+    title="tags"
+    :publishable="false"
+    :searchable="['tag']"
+    :sorting="['tag']">
 
-    @include('core::admin._button-create', ['module' => 'tags'])
+    <template slot="add-button">
+        @include('core::admin._button-create', ['module' => 'tags'])
+    </template>
 
-    <h1>@lang('Tags')</h1>
+    <template slot="buttons">
+        @include('core::admin._lang-switcher-for-list')
+    </template>
 
-    <div class="btn-toolbar">
-        @include('core::admin._button-select')
-        @include('core::admin._button-actions', ['limit' => ['delete']])
-    </div>
+    <template slot="columns" slot-scope="{ sortArray }">
+        <item-list-column-header name="checkbox"></item-list-column-header>
+        <item-list-column-header name="edit"></item-list-column-header>
+        <item-list-column-header name="tag" sortable :sort-array="sortArray" :label="$t('Position')"></item-list-column-header>
+        <item-list-column-header name="uses" sortable :sort-array="sortArray" :label="$t('Uses')"></item-list-column-header>
+    </template>
 
-    <div class="table-responsive">
+    <template slot="table-row" slot-scope="{ model, checkedModels, loading }">
+        <td class="checkbox"><item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox></td>
+        <td>@include('core::admin._button-edit', ['module' => 'tags'])</td>
+        <td>@{{ model.tag }}</td>
+        <td>@{{ model.uses }}</td>
+    </template>
 
-        <table st-persist="tagsTable" st-table="displayedModels" st-safe-src="models" st-order st-filter class="table table-main">
-            <thead>
-                <tr>
-                    <th class="delete"></th>
-                    <th class="edit"></th>
-                    <th st-sort="tag" class="tag st-sort">{{ __('Tag') }}</th>
-                    <th st-sort="uses" st-sort-default="reverse" class="uses st-sort">{{ __('Uses') }}</th>
-                </tr>
-                <tr>
-                    <td colspan="2"></td>
-                    <td>
-                        <input st-search="tag" class="form-control form-control-sm" placeholder="@lang('Filter')…" type="text">
-                    </td>
-                    <td></td>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr ng-repeat="model in displayedModels">
-                    <td>
-                        <input type="checkbox" checklist-model="checked.models" checklist-value="model">
-                    </td>
-                    <td>
-                        @include('core::admin._button-edit', ['module' => 'tags'])
-                    </td>
-                    <td>@{{ model.tag }}</td>
-                    <td>@{{ model.uses }}</td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="4" typi-pagination></td>
-                </tr>
-            </tfoot>
-        </table>
-
-    </div>
-
-</div>
+</item-list>
 
 @endsection

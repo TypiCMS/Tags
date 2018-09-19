@@ -25,30 +25,6 @@ class EloquentTag extends EloquentRepository
     }
 
     /**
-     * Get all tags with uses count.
-     *
-     * @return Collection
-     */
-    public function allWithUses()
-    {
-        $query = $this->createModel()->select(
-            'id',
-            'tag',
-            'slug',
-            DB::raw(
-                '(SELECT COUNT(*) FROM `'.
-                DB::getTablePrefix().
-                'taggables` WHERE `tag_id` = `'.
-                DB::getTablePrefix().
-                "tags`.`id`) AS 'uses'"
-            )
-        )
-        ->orderBy('uses', 'desc');
-
-        return $query->get();
-    }
-
-    /**
      * Find existing tags or create if they don't exist.
      *
      * @param array $tags Array of strings, each representing a tag

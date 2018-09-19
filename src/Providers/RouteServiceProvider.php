@@ -51,8 +51,17 @@ class RouteServiceProvider extends ServiceProvider
                 $router->get('tags/{tag}/edit', 'AdminController@edit')->name('admin::edit-tag')->middleware('can:update-tag');
                 $router->post('tags', 'AdminController@store')->name('admin::store-tag')->middleware('can:create-tag');
                 $router->put('tags/{tag}', 'AdminController@update')->name('admin::update-tag')->middleware('can:update-tag');
-                $router->patch('tags/{ids}', 'AdminController@ajaxUpdate')->name('admin::update-tag-ajax')->middleware('can:update-tag');
-                $router->delete('tags/{ids}', 'AdminController@destroyMultiple')->name('admin::destroy-tag')->middleware('can:delete-tag');
+            });
+
+            /*
+             * API routes
+             */
+            $router->middleware('api')->prefix('api')->group(function (Router $router) {
+                $router->middleware('auth:api')->group(function (Router $router) {
+                    $router->get('tags', 'ApiController@index')->name('api::index-tags')->middleware('can:see-all-tags');
+                    $router->patch('tags/{tag}', 'ApiController@updatePartial')->name('api::update-tag')->middleware('can:update-tag');
+                    $router->delete('tags/{tag}', 'ApiController@destroy')->name('api::destroy-tag')->middleware('can:delete-tag');
+                });
             });
         });
     }
