@@ -25,7 +25,7 @@
     <template slot="columns" slot-scope="{ sortArray }">
         <item-list-column-header name="checkbox"></item-list-column-header>
         <item-list-column-header name="edit"></item-list-column-header>
-        <item-list-column-header name="tag" sortable :sort-array="sortArray" :label="$t('Position')"></item-list-column-header>
+        <item-list-column-header name="tag" sortable :sort-array="sortArray" :label="$t('Tag')"></item-list-column-header>
         <item-list-column-header name="uses" sortable :sort-array="sortArray" :label="$t('Uses')"></item-list-column-header>
     </template>
 
