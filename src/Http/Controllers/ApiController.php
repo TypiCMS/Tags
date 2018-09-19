@@ -29,7 +29,6 @@ class ApiController extends BaseApiController
                     "tags`.`id`) AS 'uses'"
                 )
             )
-            ->translated($request->input('translatable_fields'))
             ->paginate($request->input('per_page'));
 
         return $models;
