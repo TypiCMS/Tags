@@ -57,6 +57,7 @@ class RouteServiceProvider extends ServiceProvider
              * API routes
              */
             $router->middleware('api')->prefix('api')->group(function (Router $router) {
+                $router->get('tags-list', 'ApiController@tagsList');
                 $router->middleware('auth:api')->group(function (Router $router) {
                     $router->get('tags', 'ApiController@index')->middleware('can:see-all-tags');
                     $router->patch('tags/{tag}', 'ApiController@updatePartial')->middleware('can:update-tag');

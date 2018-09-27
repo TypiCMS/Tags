@@ -34,6 +34,14 @@ class ApiController extends BaseApiController
         return $models;
     }
 
+    public function tagsList(Request $request)
+    {
+        $models = QueryBuilder::for(Tag::class)
+            ->get();
+
+        return $models;
+    }
+
     /**
      * Remove the specified resource from storage.
      *
