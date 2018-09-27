@@ -6,7 +6,8 @@
 
     {!! $page->body !!}
 
-    @include('files::public._files', ['model' => $page])
+    @include('files::public._documents', ['model' => $page])
+    @include('files::public._images', ['model' => $page])
 
     @if ($models->count())
     @include('tags::public._list', ['items' => $models])
