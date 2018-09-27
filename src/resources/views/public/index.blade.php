@@ -9,7 +9,8 @@
     @include('files::public._documents', ['model' => $page])
     @include('files::public._images', ['model' => $page])
 
-    @if ($models->count())
+
+    @if ($models->count() > 0)
     @include('tags::public._list', ['items' => $models])
     @endif
 
