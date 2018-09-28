@@ -19,7 +19,7 @@ class ApiController extends BaseApiController
 
     public function index(Request $request)
     {
-        $models = QueryBuilder::for(Tag::class)
+        $data = QueryBuilder::for(Tag::class)
             ->addSelect(
                 DB::raw(
                     '(SELECT COUNT(*) FROM `'.
@@ -31,7 +31,7 @@ class ApiController extends BaseApiController
             )
             ->paginate($request->input('per_page'));
 
-        return $models;
+        return $data;
     }
 
     public function tagsList(Request $request)
