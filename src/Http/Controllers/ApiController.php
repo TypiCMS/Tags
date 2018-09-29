@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\QueryBuilder;
 use TypiCMS\Modules\Core\Http\Controllers\BaseApiController;
-use TypiCMS\Modules\Tags\Http\Requests\FormRequest;
 use TypiCMS\Modules\Tags\Models\Tag;
 use TypiCMS\Modules\Tags\Repositories\EloquentTag;
 
