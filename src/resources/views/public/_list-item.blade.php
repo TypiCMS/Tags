@@ -1,5 +1,5 @@
 <li class="tags-item">
-    <a class="tags-item-link" href="{{ route($lang.'::tag', $tag->slug) }}">
+    <a class="tags-item-link" href="{{ $tag->uri() }}">
         {{ $tag->tag }} ({{ $tag->uses }})
     </a>
 </li>
