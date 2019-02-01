@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Tags\Repositories;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Str;
 use TypiCMS\Modules\Core\Repositories\EloquentRepository;
 use TypiCMS\Modules\Tags\Models\Tag;
 
@@ -50,7 +51,7 @@ class EloquentTag extends EloquentRepository
         foreach ($tags as $tag) {
             $returnTags[] = $this->create([
                 'tag' => $tag,
-                'slug' => str_slug($tag),
+                'slug' => Str::slug($tag),
             ]);
         }
 
