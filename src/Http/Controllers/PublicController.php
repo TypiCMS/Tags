@@ -20,9 +20,8 @@ class PublicController extends BasePublicController
      */
     public function index()
     {
-        $page = request('page');
         $perPage = config('typicms.tags.per_page');
-        $models = $this->repository->paginate($perPage, ['*'], 'page', $page);
+        $models = $this->repository->paginate($perPage);
 
         return view('tags::public.index')
             ->with(compact('models'));
