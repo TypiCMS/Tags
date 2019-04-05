@@ -17,7 +17,7 @@ class EloquentTag extends EloquentRepository
     {
         $page = $page ?: Paginator::resolveCurrentPage($pageName);
 
-        return $this->executeCallback(get_called_class(), __FUNCTION__, array_merge(func_get_args(), compact('page')), function () use ($perPage, $attributes, $pageName, $page) {
+        return $this->executeCallback(static::class, __FUNCTION__, array_merge(func_get_args(), compact('page')), function () use ($perPage, $attributes, $pageName, $page) {
             return $this->prepareQuery($this->createModel())->order()->paginate($perPage, $attributes, $pageName, $page);
         });
     }
