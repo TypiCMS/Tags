@@ -4,15 +4,9 @@ namespace TypiCMS\Modules\Tags\Http\Controllers;
 
 use TypiCMS;
 use TypiCMS\Modules\Core\Http\Controllers\BasePublicController;
-use TypiCMS\Modules\Tags\Repositories\EloquentTag;
 
 class PublicController extends BasePublicController
 {
-    public function __construct(EloquentTag $tag)
-    {
-        parent::__construct($tag);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +15,7 @@ class PublicController extends BasePublicController
     public function index()
     {
         $perPage = config('typicms.tags.per_page');
-        $models = $this->repository->paginate($perPage);
+        $models = $this->model->paginate($perPage);
 
         return view('tags::public.index')
             ->with(compact('models'));
@@ -34,7 +28,7 @@ class PublicController extends BasePublicController
      */
     public function show($slug)
     {
-        $model = $this->repository->bySlug($slug);
+        $model = $this->model->bySlug($slug);
 
         return view('tags::public.show')
             ->with(compact('model'));

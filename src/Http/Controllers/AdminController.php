@@ -5,15 +5,9 @@ namespace TypiCMS\Modules\Tags\Http\Controllers;
 use TypiCMS\Modules\Core\Http\Controllers\BaseAdminController;
 use TypiCMS\Modules\Tags\Http\Requests\FormRequest;
 use TypiCMS\Modules\Tags\Models\Tag;
-use TypiCMS\Modules\Tags\Repositories\EloquentTag;
 
 class AdminController extends BaseAdminController
 {
-    public function __construct(EloquentTag $tag)
-    {
-        parent::__construct($tag);
-    }
-
     /**
      * List models.
      *
@@ -31,7 +25,7 @@ class AdminController extends BaseAdminController
      */
     public function create()
     {
-        $model = $this->repository->createModel();
+        $model = new;
 
         return view('tags::admin.create')
             ->with(compact('model'));
@@ -59,7 +53,7 @@ class AdminController extends BaseAdminController
      */
     public function store(FormRequest $request)
     {
-        $tag = $this->repository->create($request->all());
+        $tag = ::create($request->all());
 
         return $this->redirect($request, $tag);
     }
@@ -74,7 +68,7 @@ class AdminController extends BaseAdminController
      */
     public function update(Tag $tag, FormRequest $request)
     {
-        $this->repository->update($request->id, $request->all());
+        ::update($request->id, $request->all());
 
         return $this->redirect($request, $tag);
     }

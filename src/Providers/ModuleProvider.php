@@ -7,7 +7,6 @@ use Illuminate\Support\ServiceProvider;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
 use TypiCMS\Modules\Tags\Composers\SidebarViewComposer;
 use TypiCMS\Modules\Tags\Facades\Tags;
-use TypiCMS\Modules\Tags\Repositories\EloquentTag;
 
 class ModuleProvider extends ServiceProvider
 {
@@ -58,6 +57,6 @@ class ModuleProvider extends ServiceProvider
          */
         $app->register(RouteServiceProvider::class);
 
-        $app->bind('Tags', EloquentTag::class);
+        $app->bind('Tags', Tag::class);
     }
 }

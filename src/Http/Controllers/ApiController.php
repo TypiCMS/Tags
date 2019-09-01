@@ -7,15 +7,9 @@ use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\QueryBuilder;
 use TypiCMS\Modules\Core\Http\Controllers\BaseApiController;
 use TypiCMS\Modules\Tags\Models\Tag;
-use TypiCMS\Modules\Tags\Repositories\EloquentTag;
 
 class ApiController extends BaseApiController
 {
-    public function __construct(EloquentTag $tag)
-    {
-        parent::__construct($tag);
-    }
-
     public function index(Request $request)
     {
         $data = QueryBuilder::for(Tag::class)
@@ -50,7 +44,7 @@ class ApiController extends BaseApiController
      */
     public function destroy(Tag $tag)
     {
-        $deleted = $this->repository->delete($tag);
+        $deleted = $tag->delete();
 
         return response()->json([
             'error' => !$deleted,
