@@ -2,7 +2,9 @@
 
 namespace TypiCMS\Modules\Tags\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\QueryBuilder;
 use TypiCMS\Modules\Core\Http\Controllers\BaseApiController;
@@ -10,7 +12,7 @@ use TypiCMS\Modules\Tags\Models\Tag;
 
 class ApiController extends BaseApiController
 {
-    public function index(Request $request)
+    public function index(Request $request): LengthAwarePaginator
     {
         $data = QueryBuilder::for(Tag::class)
             ->addSelect(
@@ -35,14 +37,7 @@ class ApiController extends BaseApiController
         return $models;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \TypiCMS\Modules\Tags\Models\Tag $tag
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function destroy(Tag $tag)
+    public function destroy(Tag $tag): JsonResponse
     {
         $deleted = $tag->delete();
 
