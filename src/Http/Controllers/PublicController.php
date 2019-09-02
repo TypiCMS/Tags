@@ -2,33 +2,25 @@
 
 namespace TypiCMS\Modules\Tags\Http\Controllers;
 
+use Illuminate\View\View;
 use TypiCMS;
 use TypiCMS\Modules\Core\Http\Controllers\BasePublicController;
+use TypiCMS\Modules\Tags\Models\Tag;
 
 class PublicController extends BasePublicController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function index()
+    public function index(): View
     {
         $perPage = config('typicms.tags.per_page');
-        $models = $this->model->paginate($perPage);
+        $models = Tag::paginate($perPage);
 
         return view('tags::public.index')
             ->with(compact('models'));
     }
 
-    /**
-     * Show news.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function show($slug)
+    public function show($slug): View
     {
-        $model = $this->model->bySlug($slug);
+        $model = Tag::where('slug', $slug)->firstOrFails();
 
         return view('tags::public.show')
             ->with(compact('model'));
