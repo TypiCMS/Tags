@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Tags\Models;
 
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laracasts\Presenter\PresentableTrait;
 use TypiCMS\Modules\Core\Models\Base;
 use TypiCMS\Modules\History\Traits\Historable;
@@ -24,12 +25,7 @@ class Tag extends Base
      */
     protected $route = 'tags';
 
-    /**
-     * Define a many-to-many polymorphic relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphedByMany
-     */
-    public function projects()
+    public function projects(): MorphToMany
     {
         return $this->morphedByMany(Project::class, 'taggable');
     }
