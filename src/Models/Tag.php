@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Tags\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laracasts\Presenter\PresentableTrait;
 use TypiCMS\Modules\Core\Models\Base;
@@ -17,6 +18,11 @@ class Tag extends Base
     protected $presenter = ModulePresenter::class;
 
     protected $guarded = ['id', 'exit'];
+
+    public function scopePublished(Builder $query): Builder
+    {
+        return $query;
+    }
 
     public function projects(): MorphToMany
     {
