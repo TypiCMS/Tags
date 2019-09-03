@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
 use TypiCMS\Modules\Tags\Composers\SidebarViewComposer;
 use TypiCMS\Modules\Tags\Facades\Tags;
+use TypiCMS\Modules\Tags\Models\Tag;
 
 class ModuleProvider extends ServiceProvider
 {
