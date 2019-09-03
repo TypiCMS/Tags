@@ -20,7 +20,7 @@ class PublicController extends BasePublicController
 
     public function show($slug): View
     {
-        $model = Tag::where('slug', $slug)->firstOrFails();
+        $model = Tag::where('slug', $slug)->firstOrFail();
 
         return view('tags::public.show')
             ->with(compact('model'));
