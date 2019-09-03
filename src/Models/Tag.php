@@ -18,13 +18,6 @@ class Tag extends Base
 
     protected $guarded = ['id', 'exit'];
 
-    /**
-     * The default route for back office.
-     *
-     * @var string
-     */
-    protected $route = 'tags';
-
     public function projects(): MorphToMany
     {
         return $this->morphedByMany(Project::class, 'taggable');

@@ -4,17 +4,12 @@ namespace TypiCMS\Modules\Tags\Observers;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Tags;
+use TypiCMS\Modules\Tags\Models\Tag;
 
 class TagObserver
 {
-    /**
-     * On save, process tags.
-     *
-     * @param Model $model eloquent
-     *
-     * @return mixed false or void
-     */
     public function saved(Model $model)
     {
         $tags = $this->processTags(request('tags'));
@@ -23,12 +18,8 @@ class TagObserver
 
     /**
      * Convert string of tags to array.
-     *
-     * @param  string
-     *
-     * @return array
      */
-    protected function processTags($tags)
+    protected function processTags($tags): array
     {
         if (!$tags) {
             return [];
@@ -43,14 +34,6 @@ class TagObserver
         return $tags;
     }
 
-    /**
-     * Sync tags for model.
-     *
-     * @param Model $model
-     * @param array $tags
-     *
-     * @return null
-     */
     protected function syncTags(Model $model, array $tags)
     {
         if (!method_exists($model, 'tags')) {
@@ -63,8 +46,31 @@ class TagObserver
         $tagIds = [];
 
         if ($tags) {
-            $found = Tags::findOrCreate($tags);
-            foreach ($found as $tag) {
+            $foundTags = Tag::whereIn('tag', $tags)->get();
+
+            $returnTags = [];
+
+            if ($foundTags) {
+                foreach ($foundTags as $tag) {
+                    $pos = array_search($tag->tag, $tags);
+
+                    // Add returned tags to array
+                    if ($pos !== false) {
+                        $returnTags[] = $tag;
+                        unset($tags[$pos]);
+                    }
+                }
+            }
+
+            // Add remainings tags as new
+            foreach ($tags as $tag) {
+                $returnTags[] = Tag::create([
+                    'tag' => $tag,
+                    'slug' => Str::slug($tag),
+                ]);
+            }
+
+            foreach ($returnTags as $tag) {
                 $tagIds[] = $tag->id;
             }
         }
