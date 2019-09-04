@@ -20,7 +20,7 @@ class ApiController extends BaseApiController
             ->selectFields($request->input('fields.tags'))
             ->allowedSorts(['tag', 'uses'])
             ->allowedFilters([
-                AllowedFilter::custom('tag', new FilterOr),
+                AllowedFilter::custom('tag', new FilterOr()),
             ])
             ->addSelect(
                 DB::raw(
