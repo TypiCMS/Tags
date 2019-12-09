@@ -3,7 +3,6 @@
 namespace TypiCMS\Modules\Tags\Http\Controllers;
 
 use Illuminate\View\View;
-use TypiCMS;
 use TypiCMS\Modules\Core\Http\Controllers\BasePublicController;
 use TypiCMS\Modules\Tags\Models\Tag;
 
