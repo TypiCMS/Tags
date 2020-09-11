@@ -2,7 +2,6 @@
 
 namespace TypiCMS\Modules\Tags\Http\Controllers;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -44,12 +43,8 @@ class ApiController extends BaseApiController
         return $models;
     }
 
-    public function destroy(Tag $tag): JsonResponse
+    public function destroy(Tag $tag)
     {
-        $deleted = $tag->delete();
-
-        return response()->json([
-            'error' => !$deleted,
-        ]);
+        $tag->delete();
     }
 }
