@@ -19,7 +19,7 @@ class Tag extends Base
 
     protected $presenter = ModulePresenter::class;
 
-    protected $guarded = ['id', 'exit'];
+    protected $guarded = [];
 
     public function scopePublished(Builder $query): Builder
     {

@@ -31,14 +31,14 @@ class AdminController extends BaseAdminController
 
     public function store(FormRequest $request): RedirectResponse
     {
-        $tag = Tag::create($request->all());
+        $tag = Tag::create($request->validated());
 
         return $this->redirect($request, $tag);
     }
 
     public function update(Tag $tag, FormRequest $request): RedirectResponse
     {
-        $tag->update($request->all());
+        $tag->update($request->validated());
 
         return $this->redirect($request, $tag);
     }
