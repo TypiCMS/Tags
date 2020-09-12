@@ -4,6 +4,8 @@ namespace TypiCMS\Modules\Tags\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use Laracasts\Presenter\PresentableTrait;
 use TypiCMS\Modules\Core\Models\Base;
 use TypiCMS\Modules\History\Traits\Historable;
@@ -27,5 +29,16 @@ class Tag extends Base
     public function projects(): MorphToMany
     {
         return $this->morphedByMany(Project::class, 'taggable');
+    }
+
+    public function uri($locale = null): string
+    {
+        $locale = $locale ?: config('app.locale');
+        $route = $locale.'::'.Str::singular($this->getTable());
+        if (Route::has($route)) {
+            return route($route, $this->slug);
+        }
+
+        return '/';
     }
 }
