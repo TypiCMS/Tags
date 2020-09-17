@@ -43,11 +43,11 @@ class RouteServiceProvider extends ServiceProvider
              * Admin routes
              */
             $router->middleware('admin')->prefix('admin')->group(function (Router $router) {
-                $router->get('tags', 'AdminController@index')->name('admin::index-tags')->middleware('can:see-all-tags');
-                $router->get('tags/create', 'AdminController@create')->name('admin::create-tag')->middleware('can:create-tag');
-                $router->get('tags/{tag}/edit', 'AdminController@edit')->name('admin::edit-tag')->middleware('can:update-tag');
-                $router->post('tags', 'AdminController@store')->name('admin::store-tag')->middleware('can:create-tag');
-                $router->put('tags/{tag}', 'AdminController@update')->name('admin::update-tag')->middleware('can:update-tag');
+                $router->get('tags', 'AdminController@index')->name('admin::index-tags')->middleware('can:read tags');
+                $router->get('tags/create', 'AdminController@create')->name('admin::create-tag')->middleware('can:create tags');
+                $router->get('tags/{tag}/edit', 'AdminController@edit')->name('admin::edit-tag')->middleware('can:update tags');
+                $router->post('tags', 'AdminController@store')->name('admin::store-tag')->middleware('can:create tags');
+                $router->put('tags/{tag}', 'AdminController@update')->name('admin::update-tag')->middleware('can:update tags');
             });
 
             /*
@@ -56,9 +56,9 @@ class RouteServiceProvider extends ServiceProvider
             $router->middleware('api')->prefix('api')->group(function (Router $router) {
                 $router->get('tags-list', 'ApiController@tagsList');
                 $router->middleware('auth:api')->group(function (Router $router) {
-                    $router->get('tags', 'ApiController@index')->middleware('can:see-all-tags');
-                    $router->patch('tags/{tag}', 'ApiController@updatePartial')->middleware('can:update-tag');
-                    $router->delete('tags/{tag}', 'ApiController@destroy')->middleware('can:delete-tag');
+                    $router->get('tags', 'ApiController@index')->middleware('can:read tags');
+                    $router->patch('tags/{tag}', 'ApiController@updatePartial')->middleware('can:update tags');
+                    $router->delete('tags/{tag}', 'ApiController@destroy')->middleware('can:delete tags');
                 });
             });
         });
