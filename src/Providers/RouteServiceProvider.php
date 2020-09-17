@@ -6,18 +6,12 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
+use TypiCMS\Modules\Tags\Http\Controllers\AdminController;
+use TypiCMS\Modules\Tags\Http\Controllers\ApiController;
+use TypiCMS\Modules\Tags\Http\Controllers\PublicController;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    /**
-     * This namespace is applied to the controller routes in your routes file.
-     *
-     * In addition, it is set as the URL generator's root namespace.
-     *
-     * @var string
-     */
-    protected $namespace = 'TypiCMS\Modules\Tags\Http\Controllers';
-
     /**
      * Define the routes for the application.
      */
@@ -32,8 +26,8 @@ class RouteServiceProvider extends ServiceProvider
                     $options = $page->private ? ['middleware' => 'auth'] : [];
                     foreach (locales() as $lang) {
                         if ($page->translate('status', $lang) && $uri = $page->uri($lang)) {
-                            $router->get($uri, $options + ['uses' => 'PublicController@index'])->name($lang.'::index-tags');
-                            $router->get($uri.'/{slug}', $options + ['uses' => 'PublicController@show'])->name($lang.'::tag');
+                            $router->get($uri, $options + ['uses' => [PublicController::class, 'index']])->name($lang.'::index-tags');
+                            $router->get($uri.'/{slug}', $options + ['uses' => [PublicController::class, 'show']])->name($lang.'::tag');
                         }
                     }
                 });
@@ -43,22 +37,22 @@ class RouteServiceProvider extends ServiceProvider
              * Admin routes
              */
             $router->middleware('admin')->prefix('admin')->group(function (Router $router) {
-                $router->get('tags', 'AdminController@index')->name('admin::index-tags')->middleware('can:read tags');
-                $router->get('tags/create', 'AdminController@create')->name('admin::create-tag')->middleware('can:create tags');
-                $router->get('tags/{tag}/edit', 'AdminController@edit')->name('admin::edit-tag')->middleware('can:update tags');
-                $router->post('tags', 'AdminController@store')->name('admin::store-tag')->middleware('can:create tags');
-                $router->put('tags/{tag}', 'AdminController@update')->name('admin::update-tag')->middleware('can:update tags');
+                $router->get('tags', [AdminController::class, 'index'])->name('admin::index-tags')->middleware('can:read tags');
+                $router->get('tags/create', [AdminController::class, 'create'])->name('admin::create-tag')->middleware('can:create tags');
+                $router->get('tags/{tag}/edit', [AdminController::class, 'edit'])->name('admin::edit-tag')->middleware('can:update tags');
+                $router->post('tags', [AdminController::class, 'store'])->name('admin::store-tag')->middleware('can:create tags');
+                $router->put('tags/{tag}', [AdminController::class, 'update'])->name('admin::update-tag')->middleware('can:update tags');
             });
 
             /*
              * API routes
              */
             $router->middleware('api')->prefix('api')->group(function (Router $router) {
-                $router->get('tags-list', 'ApiController@tagsList');
+                $router->get('tags-list', [ApiController::class, 'tagsList']);
                 $router->middleware('auth:api')->group(function (Router $router) {
-                    $router->get('tags', 'ApiController@index')->middleware('can:read tags');
-                    $router->patch('tags/{tag}', 'ApiController@updatePartial')->middleware('can:update tags');
-                    $router->delete('tags/{tag}', 'ApiController@destroy')->middleware('can:delete tags');
+                    $router->get('tags', [ApiController::class, 'index'])->middleware('can:read tags');
+                    $router->patch('tags/{tag}', [ApiController::class, 'updatePartial'])->middleware('can:update tags');
+                    $router->delete('tags/{tag}', [ApiController::class, 'destroy'])->middleware('can:delete tags');
                 });
             });
         });
