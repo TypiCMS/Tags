@@ -18,6 +18,8 @@ class TagObserver
 
     /**
      * Convert string of tags to array.
+     *
+     * @param mixed $tags
      */
     protected function processTags($tags): array
     {
