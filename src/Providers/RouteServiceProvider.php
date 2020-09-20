@@ -17,43 +17,41 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        Route::namespace($this->namespace)->group(function (Router $router) {
-            /*
-             * Front office routes
-             */
-            if ($page = TypiCMS::getPageLinkedToModule('tags')) {
-                $middleware = $page->private ? ['auth'] : [];
-                $router->middleware('public')->group(function (Router $router) use ($page) {
-                    foreach (locales() as $lang) {
-                        if ($page->translate('status', $lang) && $uri = $page->uri($lang)) {
-                            $router->get($uri, [PublicController::class, 'index'])->name($lang.'::index-tags');
-                            $router->get($uri.'/{slug}', [PublicController::class, 'show'])->name($lang.'::tag');
-                        }
-                    }
-                });
+        /*
+         * Front office routes
+         */
+        if ($page = TypiCMS::getPageLinkedToModule('tags')) {
+            $middleware = $page->private ? ['public', 'auth'] : ['public'];
+            foreach (locales() as $lang) {
+                if ($page->isPublished($lang) && $uri = $page->uri($lang)) {
+                    Route::middleware($middleware)->prefix($uri)->name($lang.'::')->group(function (Router $router) {
+                        $router->get('/', [PublicController::class, 'index'])->name('index-tags');
+                        $router->get('{slug}', [PublicController::class, 'show'])->name('tag');
+                    });
+                }
             }
+        }
 
-            /*
-             * Admin routes
-             */
-            $router->middleware('admin')->prefix('admin')->group(function (Router $router) {
-                $router->get('tags', [AdminController::class, 'index'])->name('admin::index-tags')->middleware('can:read tags');
-                $router->get('tags/create', [AdminController::class, 'create'])->name('admin::create-tag')->middleware('can:create tags');
-                $router->get('tags/{tag}/edit', [AdminController::class, 'edit'])->name('admin::edit-tag')->middleware('can:read tags');
-                $router->post('tags', [AdminController::class, 'store'])->name('admin::store-tag')->middleware('can:create tags');
-                $router->put('tags/{tag}', [AdminController::class, 'update'])->name('admin::update-tag')->middleware('can:update tags');
-            });
+        /*
+         * Admin routes
+         */
+        Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Router $router) {
+            $router->get('tags', [AdminController::class, 'index'])->name('index-tags')->middleware('can:read tags');
+            $router->get('tags/create', [AdminController::class, 'create'])->name('create-tag')->middleware('can:create tags');
+            $router->get('tags/{tag}/edit', [AdminController::class, 'edit'])->name('edit-tag')->middleware('can:read tags');
+            $router->post('tags', [AdminController::class, 'store'])->name('store-tag')->middleware('can:create tags');
+            $router->put('tags/{tag}', [AdminController::class, 'update'])->name('update-tag')->middleware('can:update tags');
+        });
 
-            /*
-             * API routes
-             */
-            $router->middleware('api')->prefix('api')->group(function (Router $router) {
-                $router->get('tags-list', [ApiController::class, 'tagsList']);
-                $router->middleware('auth:api')->group(function (Router $router) {
-                    $router->get('tags', [ApiController::class, 'index'])->middleware('can:read tags');
-                    $router->patch('tags/{tag}', [ApiController::class, 'updatePartial'])->middleware('can:update tags');
-                    $router->delete('tags/{tag}', [ApiController::class, 'destroy'])->middleware('can:delete tags');
-                });
+        /*
+         * API routes
+         */
+        Route::middleware('api')->prefix('api')->group(function (Router $router) {
+            $router->get('tags-list', [ApiController::class, 'tagsList']);
+            $router->middleware('auth:api')->group(function (Router $router) {
+                $router->get('tags', [ApiController::class, 'index'])->middleware('can:read tags');
+                $router->patch('tags/{tag}', [ApiController::class, 'updatePartial'])->middleware('can:update tags');
+                $router->delete('tags/{tag}', [ApiController::class, 'destroy'])->middleware('can:delete tags');
             });
         });
     }
