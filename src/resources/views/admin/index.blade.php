@@ -10,6 +10,7 @@
     fields="id,tag,slug"
     table="tags"
     title="tags"
+    :multilingual="false"
     :publishable="false"
     :searchable="['tag']"
     :sorting="['tag']">
