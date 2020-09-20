@@ -4,7 +4,7 @@ return [
     'tags' => [
         'read tags' => 'Read',
         'create tags' => 'Create',
-        'update tags' => 'Edit',
+        'update tags' => 'Update',
         'delete tags' => 'Delete',
     ],
 ];
