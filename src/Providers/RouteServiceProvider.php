@@ -39,7 +39,7 @@ class RouteServiceProvider extends ServiceProvider
             $router->middleware('admin')->prefix('admin')->group(function (Router $router) {
                 $router->get('tags', [AdminController::class, 'index'])->name('admin::index-tags')->middleware('can:read tags');
                 $router->get('tags/create', [AdminController::class, 'create'])->name('admin::create-tag')->middleware('can:create tags');
-                $router->get('tags/{tag}/edit', [AdminController::class, 'edit'])->name('admin::edit-tag')->middleware('can:update tags');
+                $router->get('tags/{tag}/edit', [AdminController::class, 'edit'])->name('admin::edit-tag')->middleware('can:read tags');
                 $router->post('tags', [AdminController::class, 'store'])->name('admin::store-tag')->middleware('can:create tags');
                 $router->put('tags/{tag}', [AdminController::class, 'update'])->name('admin::update-tag')->middleware('can:update tags');
             });
