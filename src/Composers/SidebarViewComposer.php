@@ -19,7 +19,7 @@ class SidebarViewComposer
             $group->weight = 30;
             $group->addItem(__('Tags'), function (SidebarItem $item) {
                 $item->id = 'tags';
-                $item->icon = config('typicms.tags.sidebar.icon', 'icon fa fa-fw fa-tags');
+                $item->icon = config('typicms.tags.sidebar.icon');
                 $item->weight = config('typicms.tags.sidebar.weight');
                 $item->route('admin::index-tags');
                 $item->append('admin::create-tag');
