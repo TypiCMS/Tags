@@ -12,8 +12,10 @@ trait HasTags
     public static function bootHasTags()
     {
         static::saved(function (Model $model) {
-            $tags = $this->processTags(request('tags'));
-            $this->syncTags($model, $tags);
+            if (request()->has('tags')) {
+                $tags = $model->processTags(request('tags'));
+                $model->syncTags($model, $tags);
+            }
         });
     }
 
