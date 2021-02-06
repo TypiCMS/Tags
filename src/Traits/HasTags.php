@@ -1,27 +1,33 @@
 <?php
 
-namespace TypiCMS\Modules\Tags\Observers;
+namespace TypiCMS\Modules\Tags\Traits;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Str;
-use Tags;
 use TypiCMS\Modules\Tags\Models\Tag;
 
-class TagObserver
+trait HasTags
 {
-    public function saved(Model $model)
+    public static function bootHasFiles()
     {
-        $tags = $this->processTags(request('tags'));
-        $this->syncTags($model, $tags);
+        static::saved(function (Model $model) {
+            $tags = $this->processTags(request('tags'));
+            $this->syncTags($model, $tags);
+        });
+    }
+
+    public function tags(): MorphToMany
+    {
+        return $this->morphToMany(Tag::class, 'taggable')
+            ->orderBy('tag')
+            ->withTimestamps();
     }
 
     /**
      * Convert string of tags to array.
-     *
-     * @param mixed $tags
      */
-    protected function processTags($tags): array
+    protected function processTags(?string $tags): array
     {
         if (!$tags) {
             return [];
@@ -38,12 +44,6 @@ class TagObserver
 
     protected function syncTags(Model $model, array $tags)
     {
-        if (!method_exists($model, 'tags')) {
-            Log::info('Model doesn’t have a method called tags');
-
-            return false;
-        }
-
         // Create or add tags
         $tagIds = [];
 
