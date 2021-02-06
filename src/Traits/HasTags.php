@@ -9,7 +9,7 @@ use TypiCMS\Modules\Tags\Models\Tag;
 
 trait HasTags
 {
-    public static function bootHasFiles()
+    public static function bootHasTags()
     {
         static::saved(function (Model $model) {
             $tags = $this->processTags(request('tags'));
