@@ -19,18 +19,18 @@ class ModuleServiceProvider extends ServiceProvider
         $modules = $this->app['config']['typicms']['modules'];
         $this->app['config']->set('typicms.modules', array_merge(['tags' => ['linkable_to_page']], $modules));
 
-        $this->loadViewsFrom(__DIR__.'/../resources/views/', 'tags');
+        $this->loadViewsFrom(__DIR__.'/../../resources/views/', 'tags');
 
         $this->publishes([
-            __DIR__.'/../database/migrations/create_tags_table.php.stub' => getMigrationFileName('create_tags_table'),
+            __DIR__.'/../../database/migrations/create_tags_table.php.stub' => getMigrationFileName('create_tags_table'),
         ], 'migrations');
 
         $this->publishes([
-            __DIR__.'/../resources/views' => resource_path('views/vendor/tags'),
+            __DIR__.'/../../resources/views' => resource_path('views/vendor/tags'),
         ], 'views');
 
         $this->publishes([
-            __DIR__.'/../resources/scss' => resource_path('scss'),
+            __DIR__.'/../../resources/scss' => resource_path('scss'),
         ], 'resources');
 
         AliasLoader::getInstance()->alias('Tags', Tags::class);
