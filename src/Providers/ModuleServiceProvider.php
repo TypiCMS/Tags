@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Tags\Providers;
 
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
 use TypiCMS\Modules\Tags\Composers\SidebarViewComposer;
@@ -11,13 +12,12 @@ use TypiCMS\Modules\Tags\Models\Tag;
 
 class ModuleServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'typicms.tags');
         $this->mergeConfigFrom(__DIR__.'/../config/permissions.php', 'typicms.permissions');
 
-        $modules = $this->app['config']['typicms']['modules'];
-        $this->app['config']->set('typicms.modules', array_merge(['tags' => ['linkable_to_page']], $modules));
+        config(['typicms.modules.tags' => ['linkable_to_page']]);
 
         $this->loadViewsFrom(__DIR__.'/../../resources/views/', 'tags');
 
@@ -35,28 +35,20 @@ class ModuleServiceProvider extends ServiceProvider
 
         AliasLoader::getInstance()->alias('Tags', Tags::class);
 
-        /*
-         * Sidebar view composer
-         */
-        $this->app->view->composer('core::admin._sidebar', SidebarViewComposer::class);
+        View::composer('core::admin._sidebar', SidebarViewComposer::class);
 
         /*
          * Add the page in the view.
          */
-        $this->app->view->composer('tags::public.*', function ($view) {
+        View::composer('tags::public.*', function ($view) {
             $view->page = TypiCMS::getPageLinkedToModule('tags');
         });
     }
 
-    public function register()
+    public function register(): void
     {
-        $app = $this->app;
+        $this->app->register(RouteServiceProvider::class);
 
-        /*
-         * Register route service provider
-         */
-        $app->register(RouteServiceProvider::class);
-
-        $app->bind('Tags', Tag::class);
+        $this->app->bind('Tags', Tag::class);
     }
 }
